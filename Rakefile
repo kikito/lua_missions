@@ -40,7 +40,7 @@ module Missions
   end
 end
 
-task :default => :run_missions
+task :default => 'missions:run'
 
 namespace :missions do
 
