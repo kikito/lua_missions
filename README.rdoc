@@ -1,0 +1,119 @@
+= Lua Missions
+
+The Lua Missions help you learn Lua.
+The goal is to learn the Lua language, syntax, structure, and some common
+functions and libraries, through failing tests.
+
+== The Structure
+
+The lessons are broken out into areas by file, strings are covered in strings.lua,
+nil is covered in nil.rb, etc. They are presented in order in the missions.rb file.
+
+Each mission builds up your knowledge of Ruby and builds upon itself.  It will stop at
+the first place you need to correct.
+
+Some missions simply need to have the correct answer substituted for an incorrect one.
+Some, however, require you to supply your own answer.  If you see the variable +__+ (a
+double underscore) listed, it is a hint to you to supply your own code in order to
+make it work correctly.
+
+== Installing Lua
+
+If you do not have Ruby setup, please visit http://www.lua.org/download.html for
+operating specific instructions. To check the installations simply type:
+
+*nix platforms from any terminal window:
+
+   [~] $ lua -v
+
+Windows from the command prompt (cmd.exe)
+
+   c:\lua -v
+
+Any response for Lua with a version number greater than 5.0 is fine (should be
+around 5.1 or more).
+
+== The Missions
+
+In order to run de tests, you must execute the missions.lua file.
+
+*nix platforms, from the lua_missions root directory:
+
+    [lua_missions] $ lua missions.lua
+
+Windows is the same thing
+
+    c:\lua_missions\lua missions.lua                             # runs the default target :walk_the_path
+
+=== Red, Green, Refactor
+
+In test-driven development the process has always been, red, green, refactor.  Write a
+failing test and run it (red), make the test pass (green), then refactor it (that is
+look at the code and see if you can make it any better.  In this case you will need
+to run the mission and see it fail (red), make the test pass (green), then take a
+moment and reflect upon the test and improve the code to better communicate its intent (refactor).
+
+The very first time you run it you will see the following output:
+
+    [lua_missions] $ lua missions.lua
+    (in /Users/person/dev/lua_missions)
+
+    Starting mission 'asserts'
+      test_assert is failing.
+
+    You still have missions to do ...
+    <false> is not true.
+
+    The error happened here:
+      ./missions/asserts.lua:3: in function <./missions/asserts.lua:2>
+      missions.lua:21: in main chunk
+
+
+You have come to your first stage. It is telling you where to look for the first solution:
+
+    The error happened here:
+      ./missions/asserts.lua:3: in function <./missions/asserts.lua:2>
+      missions.lua:21: in main chunk
+
+We then open up the asserts.lua file and look at the first test:
+
+    function test_assert()
+      assert_true(false) -- this should be true
+    end
+
+We then change the +false+ to +true+ and run the test again. Ignore everything except
+the method name (+test_assert+) and the parts inside the method (everything
+before the +end+).
+
+In this case the goal is for you to see that if you pass a value to the +assert+
+method, it will either ensure it is +true+ and continue on, or fail if in fact
+the statement is +false+.
+
+== Inspiration
+
+This is heavily inspired by the Ruby Koans project:
+
+http://rubykoans.com/
+
+Go there and check it out, in case you are curious about ruby. Ruby is a great language and the Ruby Koans are a great way to learn it.
+
+
+== Other Resources
+
+The Lua Language               ::  http://www.lua.org
+Programming in lua             ::  http://www.lua.org/pil
+Lua-users wiki                 ::  http://lua-users.org/
+
+= Other stuff
+
+Author         :: Enrique García <kikito - at - gmail - dot - com> 
+Source & Issues:: http://www.github.com/kikito/lua_missions
+Requires       :: Lua 5.1 or later (optional: Rake for building up the files from source)
+
+= License
+
+http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png
+
+lua_missions is released under a Creative Commons,
+Attribution-NonCommercial-ShareAlike, Version 3.0
+(http://creativecommons.org/licenses/by-nc-sa/3.0/) License.
