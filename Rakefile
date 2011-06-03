@@ -63,6 +63,14 @@ namespace :missions do
 
 end
 
+directory MISSION_DIR
+
+SRC_FILES.each do |mission_src|
+  file mission_src.pathmap("#{MISSION_DIR}/%f") => [MISSION_DIR, mission_src] do |t|
+    Missions.make_mission_file mission_src, t.name
+  end
+end
+
 namespace :git do
 
   def commit_message
@@ -91,10 +99,3 @@ namespace :git do
 
 end
 
-directory MISSION_DIR
-
-SRC_FILES.each do |mission_src|
-  file mission_src.pathmap("#{MISSION_DIR}/%f") => [MISSION_DIR, mission_src] do |t|
-    Missions.make_mission_file mission_src, t.name
-  end
-end
