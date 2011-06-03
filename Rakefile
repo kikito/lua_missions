@@ -50,6 +50,12 @@ namespace :missions do
     sh 'lua missions.lua'
   end
 
+  desc "Execute the solved missions"
+  task :run_src do
+    cd 'src'
+    sh 'lua missions.lua'
+  end
+
   desc "Generate the Missions from the source files from scratch."
   task :regen => ['missions:delete', 'missions:gen']
 

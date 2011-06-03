@@ -37,13 +37,14 @@ around 5.1 or more).
 
 In order to run de tests, you must execute the missions.lua file.
 
-*nix platforms, from the lua_missions root directory:
+*nix platforms, from the lua_missions/missions directory:
 
-    [lua_missions] $ lua missions.lua
+    [lua_missions] $ cd missions
+    [lua_missions/missions] $ lua missions.lua
 
 Windows is the same thing
 
-    c:\lua_missions\lua missions.lua                             # runs the default target :walk_the_path
+    c:\lua_missions\missions\lua missions.lua                             # runs the default target :walk_the_path
 
 === Red, Green, Refactor
 
@@ -55,7 +56,8 @@ moment and reflect upon the test and improve the code to better communicate its 
 
 The very first time you run it you will see the following output:
 
-    [lua_missions] $ lua missions.lua
+    [lua_missions] $ cd missions
+    [lua_missions/missions] $ lua missions.lua
     (in /Users/person/dev/lua_missions)
 
     Starting mission 'asserts'
