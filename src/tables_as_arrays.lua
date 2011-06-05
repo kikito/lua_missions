@@ -45,7 +45,11 @@ end
 function test_table_concat()
   local t = { 'one', 'two', 'three' }
   assert_equal(__('onetwothree'), table.concat(t))
-  assert_equal( __('one, two, three'), table.concat(t, ', ') )
+end
+
+function test_table_concat_with_separator()
+  local t = { 'one', 'two', 'three' }
+  assert_equal(__('one, two, three'), table.concat(t, ', ') )
 end
 
 function test_table_length()

@@ -5,8 +5,12 @@ local folder_separator = package.config:sub(1,1)
 local mission_names = {
   'asserts',
   'nil',
+  'local_vs_global',
+  'numbers',
   'strings',
-  'tables_as_arrays'
+  'functions',
+  'tables_as_arrays',
+
 }
 
 local callbacks = {

@@ -70,7 +70,11 @@ local function run_test(test, callbacks)
 end
 
 local function add_test_to_mission(mission, name, f)
-  table.insert(mission, {name = name, f = f})
+  if type(f) == 'function' then
+    table.insert(mission, {name = name, f = f})
+  else
+    rawset(mission, name, f)
+  end
 end
 
 local function load_mission(name, path, callbacks)
@@ -88,13 +92,14 @@ local function load_mission(name, path, callbacks)
   setmetatable(mission, {__index = mission_environment, __newindex = add_test_to_mission})
   local succeed, message = pcall(f)
   if not succeed then
-    rawset(mission, 'status', 'syntax error')
-    rawset(mission, 'message', 'message')
+    mission.status = 'syntax error'
+    mission.message = message
     invoke_callback(callbacks.syntax_error, mission)
     return mission
   end
 
-  rawset(mission, 'status', 'loaded')
+  mission.status = 'loaded'
+
   return mission
 end
 
