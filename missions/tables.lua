@@ -98,3 +98,54 @@ function test_table_length()
   assert_equal( __, #a)
 end
 
+function test_table_length_only_takes_into_account_consecutive_numbers()
+  local t = { 1, 2, 3 }
+  t[1000] = 1000
+  assert_equal( __, #t)
+end
+
+function test_using_string_as_keys()
+  local t = { ['hi'] = 'hello' }
+  t['you'] = 'world'
+  assert_equal(__, t['hi'])
+  assert_equal(__, t['you'])
+end
+
+function test_nicer_ways_of_using_strings_as_keys()
+  -- this is the preferred way of using strings as keys. If you need to use reserved words,
+  -- or other things (functions, tables) as keys you will need to use the previous form
+  local t = { hi = 'hello' }
+  t.you = 'world'
+  assert_equal(__, t.hi)
+  assert_equal(__, t.you)
+end
+
+function test_creating_an_inline_mixed_table()
+  local t = { 'a', 'b', 'c', foo = 'foo' }
+  assert_equal(__, t[1])
+  assert_equal(__, t[2])
+  assert_equal(__, t.foo)
+end
+
+function test_non_numberic_keys_are_ignored_by_table_length()
+  local t = { 1,2, hi = 'hello' }
+  assert_equal(__, #t)
+end
+
+function test_non_numeric_keys_are_ignored_by_table_concat()
+  local t = { 1,2, hello = 'hi' }
+  assert_equal(__, table.concat(t, ', '))
+end
+
+function test_using_tables_as_keys()
+  local hi = { 1, 2, 3 }
+  local you = { 4, 5, 6 } 
+  local t = { [hi] = 'hello' }
+  t[you] = 'world'
+  assert_equal(__, t[hi])
+  assert_equal(__, t[you])
+  assert_equal(__, t[{1, 2, 3}]) -- remember: tables are treated as references
+end
+
+
+

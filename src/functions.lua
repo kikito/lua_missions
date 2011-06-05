@@ -46,7 +46,7 @@ function test_return_multiple_values()
   assert_equal(__(2), c)
 end
 
-function test_ignore_some_values()
+function test_ignore_returned_values_on_assignments()
   local function stuff()
     return 1,2,3,4,5,6
   end
