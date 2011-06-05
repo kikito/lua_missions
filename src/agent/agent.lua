@@ -1,6 +1,5 @@
 local agent = {}
 
-
 local function stripped_traceback()
   local str = debug.traceback()
   local buffer = {}
@@ -18,7 +17,11 @@ local function raise_assert_error(msg)
   error({ agent, msg, stripped_traceback() })
 end
 
-local test_environment = {
+local function invoke_callback(callback, ...)
+  if type(callback)=='function' then callback(...) end
+end
+
+local mission_environment = {
   assert_true = function(condition, msg)
     if not condition then
       raise_assert_error( msg or ("%s '%s' to be true"):format(prefix, tostring(condition)) )
@@ -46,54 +49,81 @@ local test_environment = {
     __call = function(_, ...) return ... end
   })
 }
-setmetatable(test_environment, { __index = _G })
+setmetatable(mission_environment, { __index = _G })
 
-local function invoke_test(func)
-  local status, info = pcall(func)
-  if status then return "pass", nil end
-  if type(info) == "table" and info[1] == agent then return "fail", info end
-  return "error", { info, debug.traceback() }
+local function run_test(test, callbacks)
+  local status, message = pcall(test.f)
+  if status then
+    test.status = "pass"
+    invoke_callback(callbacks.test_passed, test)
+  elseif type(message) == "table" and message[1] == agent then
+    test.status = "fail"
+    test.message = message[2]
+    test.trace = message[3]
+    invoke_callback(callbacks.test_failed, test)
+  else
+    test.status = "error"
+    test.message = message
+    test.trace = stripped_traceback()
+    invoke_callback(callbacks.test_error, test)
+  end
 end
 
 local function add_test_to_mission(mission, name, f)
   table.insert(mission, {name = name, f = f})
 end
 
-function agent.load_mission(name, path)
+local function load_mission(name, path, callbacks)
+  local mission = {name = name, path = path}
+
   local f, message = loadfile(path)
-  if not f then error(message) end
-  local mission = setmetatable({name = name}, {__index = test_environment, __newindex = add_test_to_mission})
+  if not f then
+    mission.status = 'file error'
+    mission.message = message
+    invoke_callback(callbacks.file_error, mission)
+    return mission
+  end
+
   setfenv(f, mission)
-  local status, message = pcall(f)
-  if not status then error(message) end
+  setmetatable(mission, {__index = mission_environment, __newindex = add_test_to_mission})
+  local succeed, message = pcall(f)
+  if not succeed then
+    rawset(mission, 'status', 'syntax error')
+    rawset(mission, 'message', 'message')
+    invoke_callback(callbacks.syntax_error, mission)
+    return mission
+  end
+
+  rawset(mission, 'status', 'loaded')
   return mission
 end
 
-function agent.run_mission(mission)
-  local results = {}
-  local test
+function agent.run_mission(name, path, callbacks)
+  local mission = load_mission(name, path, callbacks)
 
-  for i=1, #mission do
-    test = mission[i]
-    local result = { name = test.name }
-    result.status, result.info = invoke_test(test.f)
-    table.insert(results, result)
+  if mission.status == "loaded" then
+    mission.status = "complete"
+    for _,test in ipairs(mission) do
+      run_test(test, callbacks)
+      if test.status ~= 'pass' then mission.status = "incomplete" end
+    end
   end
 
-  return results
+  return mission
 end
 
-function agent.print_results(results)
-  for i=1, #results do
-    result = results[i]
-    print(result.name, result.status)
-    if result.status == 'fail' then
-      print(result.info[2])
-      print(result.info[3])
+function agent.print_mission(mission)
+  print(mission.name, "\t\t", mission.status)
+  if mission.status == 'incomplete' then
+    for _,test in ipairs(mission) do
+      if test.status ~= 'pass' then
+        print(test.name, test.status)
+        print(test.message)
+        print(test.trace)
+      end
     end
-    if result.status == 'error' then
-      print(result.info[1], result.info[2])
-    end
+  elseif mission.status == 'file error' or mission.status == 'syntax error' then
+    puts(mission.message)
   end
 end
 
