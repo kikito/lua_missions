@@ -52,11 +52,6 @@ function test_table_concat_with_separator()
   assert_equal(__('one, two, three'), table.concat(t, ', ') )
 end
 
-function test_table_length()
-  local a = { 1, 2, 3 }
-  assert_equal( __(3), #a)
-end
-
 function test_the_default_table_table()
   -- there's a table called "table". It has functions for table manipulation inside
   assert_equal( __('table'), type(table))
@@ -97,3 +92,9 @@ function test_table_sort_with_function()
   table.sort(x, function(a, b) return a > b end)
   assert_equal(__('25, 5, 3, 1'), table.concat(x, ', '))
 end
+
+function test_table_length()
+  local a = { 1, 2, 3 }
+  assert_equal( __(3), #a)
+end
+

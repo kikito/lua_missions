@@ -128,7 +128,7 @@ function agent.print_mission(mission)
       end
     end
   elseif mission.status == 'file error' or mission.status == 'syntax error' then
-    puts(mission.message)
+    print(mission.message)
   end
 end
 
