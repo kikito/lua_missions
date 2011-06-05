@@ -9,8 +9,7 @@ local mission_names = {
   'numbers',
   'strings',
   'functions',
-  'tables_as_arrays',
-
+  'tables'
 }
 
 local callbacks = {
