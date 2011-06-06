@@ -83,6 +83,12 @@ function test_nil_must_be_converted_to_string_before_concatenation()
   assert_equal(__, nothing_is_impossible_to_mankind)
 end
 
+function test_strings_are_compared_lexicographically()
+  assert_equal(__, "hello" == "hello")
+  assert_equal(__, "hello" ~= "goodbye")
+  assert_equal(__, "hello" > "goodbye")
+end
+
 function test_there_is_a_table_called_string()
   assert_equal(__, type(string))
 end

@@ -10,7 +10,9 @@ local mission_names = {
   'truthiness',
   'functions',
   'tables',
-  'tables_and_functions'
+  'tables_and_functions',
+  'meta',
+  'indices'
 }
 
 local missions = {}

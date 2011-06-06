@@ -85,6 +85,21 @@ function test_only_the_last_invoked_function_returns_all_values_the_rest_return_
   assert_equal(__, sum(numbers(), numbers()))
 end
 
+function test_parameters_not_passed_are_nil()
+  local function unused_param(p)
+    assert_equal(__, p)
+  end
+  unused_param()
+end
+
+function test_make_use_of_nil_for_default_values()
+  local function add(number, amount)
+    amount = amount or 1 -- very common language idiom for default values
+    return number + amount
+  end
+  assert_equal(__, add(10))
+end
+
 function test_functions_can_access_variables_on_their_defining_scope()
   -- This mix of a scope and a function inside it is called "a closure"
   local value = 10
@@ -95,6 +110,26 @@ function test_functions_can_access_variables_on_their_defining_scope()
   assert_equal(__, value)
 end
 
+function test_parenthesis_are_not_needed_on_invocation_when_the_only_parameter_is_a_string()
+  local function count_spaces(str)
+    count = 0
+    str:gsub(" ", function() count = count + 1 end) -- notice the closure here!
+    return count
+  end
+  assert_equal(__, count_spaces "This string has four spaces") -- no parenthesis!
+end
+
+function test_parenthesis_are_not_needed_on_invocation_when_the_only_parameter_is_a_table()
+  local function count_zeroes(t)
+    local count = 0
+    for i=1, #t do
+      count = count + (t[i] == 0 and 1 or 0)
+    end
+    return count
+  end
+  assert_equal(__, count_zeroes {1, 0, 2, 3, 0, 4, 5, 6, 0, 7})
+end
+
 function test_variable_number_of_arguments_with_dot_dot_dot()
   local third = function(...)
     local _,_,x = ...
@@ -102,8 +137,5 @@ function test_variable_number_of_arguments_with_dot_dot_dot()
   end
   assert_equal(__, third('a','b','c','d'))
 end
-
-
-
 
 
