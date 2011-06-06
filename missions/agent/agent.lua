@@ -1,6 +1,13 @@
 local agent = {}
 
-local function stripped_traceback()
+local function merge_tables(destination, source)
+  for k,v in pairs(source) do
+    destination[k] = destination[k] or v
+  end
+  return destination
+end
+
+local function clean_traceback()
   local str = debug.traceback()
   local buffer = {}
   for line in str:gmatch("[^\r\n]+") do
@@ -13,15 +20,8 @@ end
 
 local prefix = 'Assertion failed: Expected '
 
-local function merge(destination, source)
-  for k,v in pairs(source) do
-    destination[k] = destination[k] or v
-  end
-  return destination
-end
-
 local function raise_assert_error(msg)
-  error({ agent, msg, stripped_traceback() })
+  error({ agent, msg, clean_traceback() })
 end
 
 local function invoke_callback(callback, ...)
@@ -71,7 +71,7 @@ local function run_test(test, callbacks)
   else
     test.status = "error"
     test.message = message
-    test.trace = stripped_traceback()
+    test.trace = clean_traceback()
     invoke_callback(callbacks.test_error, test)
   end
 end
@@ -143,8 +143,8 @@ local default_callbacks = {
 -- Public interface
 
 function agent.run_missions(mission_specs, callbacks)
-  local missions = merge({}, mission_specs) -- makes a copy of mission_specs
-  callbacks = merge(callbacks or {}, default_callbacks) -- merge default values for callbacks
+  local missions = merge_tables({}, mission_specs) -- makes a copy of mission_specs
+  callbacks = merge_tables(callbacks or {}, default_callbacks) -- merge_tables default values for callbacks
   for _,mission in ipairs(missions) do
     load_mission(mission, callbacks)
     run_mission(mission, callbacks)
