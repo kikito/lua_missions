@@ -1,15 +1,3 @@
-function test_truthiness_of_nil()
-  -- begin skip
-  assert_not(nil, "This should be assert_not")
-  if false then
-  -- end skip
-  assert_true(nil, "This should be assert_not")
-  -- note: only nil and false are considered "falsy" in Lua. Everything else is condisered "truthy"
-  -- begin skip
-  end
-  -- end skip
-end
-
 function test_type_of_nil()
   assert_equal(type(nil), __('nil'))
 end

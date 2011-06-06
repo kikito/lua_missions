@@ -11,7 +11,8 @@ local mission_names = {
   'patterns',
   'functions',
   'tables',
-  'control'
+  'control',
+  'truthiness'
 }
 
 local callbacks = {
