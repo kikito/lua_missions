@@ -1,4 +1,15 @@
-local agent = {}
+local ansicolors = require 'lib.ansicolors'
+
+local function cwrite(str)
+  io.write(ansicolors(str))
+end
+
+local function cprint(...)
+  local args = {...}
+  local buffer = {}
+  for _,arg in ipairs(args) do table.insert(buffer, arg) end
+  print(ansicolors(table.concat(buffer, '\t')))
+end
 
 local function merge_tables(destination, source)
   for k,v in pairs(source) do
@@ -118,30 +129,57 @@ local function run_mission(mission, callbacks)
   end
 end
 
-local function print_mission(mission)
-  print(mission.name, "\t\t", mission.status)
-  if mission.status == 'incomplete' then
-    for _,test in ipairs(mission) do
-      if test.status ~= 'pass' then
-        print(test.name, test.status)
-        print(test.message)
-        print(test.trace)
-      end
-    end
-  elseif mission.status == 'file error' or mission.status == 'syntax error' then
-    print(mission.message)
+local function pad(str, len, filler)
+  return str .. string.rep(filler, len - #str)
+end
+
+local function bracket(str)
+  return "%{bright white}[%{reset}" .. str .. "%{bright white}]"
+end
+
+local function nice_status(status)
+  if status == 'complete' then return bracket("%{green}Complete") end
+  if status == 'incomplete' then return bracket("%{yellow}Incomplete") end
+  if status == 'fail' or status:find('error') then return bracket("%{red}"..status) end
+end
+
+local function print_test(test)
+  if test.status ~= 'pass' then
+    cprint('%{blue}' .. test.name .. ': ' .. nice_status(test.status))
+    cprint(test.message)
+    cprint(test.trace)
   end
 end
 
+local function print_mission(mission)
+  cprint(pad(mission.name, 50, '.') .. nice_status(mission.status))
+  if mission.status == 'incomplete' then
+    for _,test in ipairs(mission) do
+      print_test(test)
+    end
+  elseif mission.status == 'file error' or mission.status == 'syntax error' then
+    cprint(mission.message)
+  end
+end
+
+function all_missions_complete(missions)
+  for _,mission in ipairs(missions) do
+    if mission.status ~= 'complete' then return false end
+  end
+  return true
+end
+
 local default_callbacks = {
-  test_passed  = function(test) io.write(".") end,
-  test_failed  = function(test) io.write("F") end,
-  test_error   = function(test) io.write("E") end,
-  file_error   = function(mission) io.write("?") end,
-  syntax_error = function(mission) io.write("!") end
+  test_passed  = function(test) cwrite("%{green}.") end,
+  test_failed  = function(test) cwrite("%{red}F") end,
+  test_error   = function(test) cwrite("%{red}E") end,
+  file_error   = function(mission) cwrite("%{red}?") end,
+  syntax_error = function(mission) cwrite("%{red}!") end
 }
 
 -- Public interface
+
+local agent = {}
 
 function agent.run_missions(mission_specs, callbacks)
   local missions = merge_tables({}, mission_specs) -- makes a copy of mission_specs
@@ -154,9 +192,12 @@ function agent.run_missions(mission_specs, callbacks)
 end
 
 function agent.print_missions(missions)
-  print('\nMission status:')
+  cprint('\n\n%{bright magenta}***%{cyan} Mission status %{magenta}***%{reset}\n')
   for _, mission in ipairs(missions) do
     print_mission(mission)
+  end
+  if all_missions_complete(missions) then
+    cprint("\n\n%{bright yellow}Congratulations! You have finished all the missions!\n")
   end
 end
 

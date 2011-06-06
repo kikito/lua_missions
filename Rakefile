@@ -18,7 +18,7 @@ module Missions
   end
 
   def Missions.make_mission_file(infile, outfile)
-    if infile =~ /agent/
+    if infile =~ /lib/
       FileUtils::cp_r infile, outfile
     else
       open(infile) do |ins|

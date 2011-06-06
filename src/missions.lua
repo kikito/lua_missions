@@ -1,4 +1,4 @@
-local agent = require 'agent.agent'
+local agent = require 'lib.agent'
 
 local mission_names = {
   'asserts',
