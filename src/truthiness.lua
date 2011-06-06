@@ -27,3 +27,11 @@ function test_everything_else_is_truthy()
   assert_equal(__(true), is_truthy(function() return 'functions too' end))
 end
 
+-- Bonus note:
+-- Is it better to use
+--    if obj == nil then
+-- or
+--    if obj then
+-- Why?
+
+

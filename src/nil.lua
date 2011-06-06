@@ -16,11 +16,3 @@ function test_operating_with_nil_throws_errors()
     return 1 + __(nil)
   end)
 end
-
--- Bonus note:
--- Is it better to use
---    if obj == nil then
--- or
---    if obj then
--- Why?
-
