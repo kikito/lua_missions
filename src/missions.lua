@@ -10,6 +10,7 @@ local mission_names = {
   'truthiness',
   'functions',
   'errors',
+  'load',
   'tables',
   'tables_and_functions',
   'meta',
@@ -17,12 +18,9 @@ local mission_names = {
 }
 
 local missions = {}
-local folder_separator = package.config:sub(1,1) -- / for *nix, \ for windows
-local path
 
 for _, name in ipairs(mission_names) do
-  path = '.' .. folder_separator .. name .. '.lua'
-  table.insert(missions, { name = name, path = path })
+  table.insert(missions, { name = name, path = name .. '.lua' })
 end
 
 local results = agent.run_missions(missions)

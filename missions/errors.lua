@@ -56,3 +56,10 @@ function test_error_returning_non_strings_converts_to_string_but_supresses_file_
   assert_equal(__, message)
   -- not only numbers and strings are possible. You can returns tables, functions, etc too.
 end
+
+function test_assert_is_defined_by_lua()
+  local status, message = pcall(function() assert(false, "This is an error") end)
+  assert_equal(__, status)
+  assert_equal(__, message)
+  -- exercise left out to the reader: figure out how assert might be implemented
+end
