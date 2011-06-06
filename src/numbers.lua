@@ -24,6 +24,10 @@ function test_division_is_always_decimal()
   assert_equal(__(3.5), 7 / 2)
 end
 
+function test_there_is_a_table_called_math()
+  assert_equal(__('table'), type(math))
+end
+
 function test_some_math_functions()
   assert_equal(__(8), math.sqrt(64))
   assert_equal(__(3), math.floor(math.pi))
