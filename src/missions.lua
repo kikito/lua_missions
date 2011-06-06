@@ -16,6 +16,7 @@ local mission_names = {
   'meta',
   'indices',
   'exercise',
+  'weak_tables',
   'environments'
 }
 
