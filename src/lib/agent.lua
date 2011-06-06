@@ -70,21 +70,21 @@ local mission_environment = {
 }
 setmetatable(mission_environment, { __index = _G })
 
-local function run_test(test, callbacks)
+local function run_test(test, options)
   local status, message = pcall(test.f)
   if status then
     test.status = "pass"
-    invoke_callback(callbacks.test_passed, test)
+    invoke_callback(options.test_passed, test)
   elseif type(message) == "table" and message[1] == agent then
     test.status = "fail"
     test.message = message[2]
     test.trace = message[3]
-    invoke_callback(callbacks.test_failed, test)
+    invoke_callback(options.test_failed, test)
   else
     test.status = "error"
     test.message = message
     test.trace = clean_traceback()
-    invoke_callback(callbacks.test_error, test)
+    invoke_callback(options.test_error, test)
   end
 end
 
@@ -96,12 +96,12 @@ local function add_test_to_mission(mission, name, f)
   end
 end
 
-local function load_mission(mission, callbacks)
+local function load_mission(mission, options)
   local f, message = loadfile(mission.path)
   if not f then
     mission.status = 'file error'
     mission.message = message
-    invoke_callback(callbacks.file_error, mission)
+    invoke_callback(options.file_error, mission)
     return mission
   end
 
@@ -111,7 +111,7 @@ local function load_mission(mission, callbacks)
   if not succeed then
     mission.status = 'syntax error'
     mission.message = message
-    invoke_callback(callbacks.syntax_error, mission)
+    invoke_callback(options.syntax_error, mission)
     return mission
   end
 
@@ -119,12 +119,15 @@ local function load_mission(mission, callbacks)
   return mission
 end
 
-local function run_mission(mission, callbacks)
+local function run_mission(mission, options)
   if mission.status == "loaded" then
     mission.status = "complete"
     for _,test in ipairs(mission) do
-      run_test(test, callbacks)
-      if test.status ~= 'pass' then mission.status = "incomplete" end
+      run_test(test, options)
+      if test.status ~= 'pass' then
+        mission.status = "incomplete"
+        if options.stop_on_first_error then return end
+      end
     end
   end
 end
@@ -144,7 +147,7 @@ local function nice_status(status)
 end
 
 local function print_test(test)
-  if test.status ~= 'pass' then
+  if test.status and test.status ~= 'pass' then
     cprint('%{blue}' .. test.name .. ': ' .. nice_status(test.status))
     cprint(test.message)
     cprint(test.trace)
@@ -169,26 +172,30 @@ function all_missions_complete(missions)
   return true
 end
 
-local default_callbacks = {
+local default_options = {
   test_passed  = function(test) cwrite("%{green}.") end,
   test_failed  = function(test) cwrite("%{red}F") end,
   test_error   = function(test) cwrite("%{red}E") end,
   file_error   = function(mission) cwrite("%{red}?") end,
-  syntax_error = function(mission) cwrite("%{red}!") end
+  syntax_error = function(mission) cwrite("%{red}!") end,
+  stop_on_first_error = true
 }
 
 -- Public interface
 
 local agent = {}
 
-function agent.run_missions(mission_specs, callbacks)
+function agent.run_missions(mission_specs, options)
+  local result = {}
   local missions = merge_tables({}, mission_specs) -- makes a copy of mission_specs
-  callbacks = merge_tables(callbacks or {}, default_callbacks) -- merge_tables default values for callbacks
+  options = merge_tables(options or {}, default_options) -- merge_tables default values for options
   for _,mission in ipairs(missions) do
-    load_mission(mission, callbacks)
-    run_mission(mission, callbacks)
+    load_mission(mission, options)
+    run_mission(mission, options)
+    table.insert(result, mission)
+    if options.stop_on_first_error and mission.status ~= 'complete' then return result end
   end
-  return missions
+  return result
 end
 
 function agent.print_missions(missions)

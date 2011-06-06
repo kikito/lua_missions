@@ -60,22 +60,24 @@ The very first time you run it you will see the following output:
     [lua_missions/missions] $ lua missions.lua
     (in /Users/person/dev/lua_missions)
 
-    Starting mission 'asserts'
-      test_assert is failing.
+    F
 
-    You still have missions to do ...
-    <false> is not true.
+    *** Mission status ***
 
-    The error happened here:
-      ./missions/asserts.lua:3: in function <./missions/asserts.lua:2>
-      missions.lua:21: in main chunk
+    asserts...........................................[Incomplete]
+    test_assert: [fail]
+    Assertion failed: Expected  'false' to be true
+    stack traceback:
+      asserts.lua:3: in function <asserts.lua:2>
+      missions.lua:28: in main chunk
 
 
-You have come to your first stage. It is telling you where to look for the first solution:
+It is telling you where to look for the first solution:
 
-    The error happened here:
-      ./missions/asserts.lua:3: in function <./missions/asserts.lua:2>
-      missions.lua:21: in main chunk
+    Assertion failed: Expected  'false' to be true
+    stack traceback:
+      asserts.lua:3: in function <asserts.lua:2>
+      missions.lua:28: in main chunk
 
 We then open up the asserts.lua file and look at the first test:
 
