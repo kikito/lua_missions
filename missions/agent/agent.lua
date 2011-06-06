@@ -13,6 +13,13 @@ end
 
 local prefix = 'Assertion failed: Expected '
 
+local function merge(destination, source)
+  for k,v in pairs(source) do
+    destination[k] = destination[k] or v
+  end
+  return destination
+end
+
 local function raise_assert_error(msg)
   error({ agent, msg, stripped_traceback() })
 end
@@ -77,10 +84,8 @@ local function add_test_to_mission(mission, name, f)
   end
 end
 
-local function load_mission(name, path, callbacks)
-  local mission = {name = name, path = path}
-
-  local f, message = loadfile(path)
+local function load_mission(mission, callbacks)
+  local f, message = loadfile(mission.path)
   if not f then
     mission.status = 'file error'
     mission.message = message
@@ -99,13 +104,10 @@ local function load_mission(name, path, callbacks)
   end
 
   mission.status = 'loaded'
-
   return mission
 end
 
-function agent.run_mission(name, path, callbacks)
-  local mission = load_mission(name, path, callbacks)
-
+local function run_mission(mission, callbacks)
   if mission.status == "loaded" then
     mission.status = "complete"
     for _,test in ipairs(mission) do
@@ -113,11 +115,9 @@ function agent.run_mission(name, path, callbacks)
       if test.status ~= 'pass' then mission.status = "incomplete" end
     end
   end
-
-  return mission
 end
 
-function agent.print_mission(mission)
+local function print_mission(mission)
   print(mission.name, "\t\t", mission.status)
   if mission.status == 'incomplete' then
     for _,test in ipairs(mission) do
@@ -129,6 +129,33 @@ function agent.print_mission(mission)
     end
   elseif mission.status == 'file error' or mission.status == 'syntax error' then
     print(mission.message)
+  end
+end
+
+local default_callbacks = {
+  test_passed  = function(test) io.write(".") end,
+  test_failed  = function(test) io.write("F") end,
+  test_error   = function(test) io.write("E") end,
+  file_error   = function(mission) io.write("?") end,
+  syntax_error = function(mission) io.write("!") end
+}
+
+-- Public interface
+
+function agent.run_missions(mission_specs, callbacks)
+  local missions = merge({}, mission_specs) -- makes a copy of mission_specs
+  callbacks = merge(callbacks or {}, default_callbacks) -- merge default values for callbacks
+  for _,mission in ipairs(missions) do
+    load_mission(mission, callbacks)
+    run_mission(mission, callbacks)
+  end
+  return missions
+end
+
+function agent.print_missions(missions)
+  print('\nMission status:')
+  for _, mission in ipairs(missions) do
+    print_mission(mission)
   end
 end
 
