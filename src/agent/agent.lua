@@ -2,7 +2,7 @@ local agent = {}
 
 local function merge_tables(destination, source)
   for k,v in pairs(source) do
-    destination[k] = destination[k] or v
+    destination[k] = destination[k] == nil and v or destination[k] -- don't merge false, only nil
   end
   return destination
 end
