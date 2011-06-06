@@ -86,13 +86,21 @@ function test_only_the_last_invoked_function_returns_all_values_the_rest_return_
 end
 
 function test_functions_can_access_variables_on_their_defining_scope()
-  -- This is also called "a closure"
+  -- This mix of a scope and a function inside it is called "a closure"
   local value = 10
   local function change()
     value = 20
   end
   change()
   assert_equal(__(20), value)
+end
+
+function test_variable_number_of_arguments_with_dot_dot_dot()
+  local third = function(...)
+    local _,_,x = ...
+    return x
+  end
+  assert_equal(__('c'), third('a','b','c','d'))
 end
 
 

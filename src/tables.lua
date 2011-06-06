@@ -147,5 +147,13 @@ function test_using_tables_as_keys()
   assert_equal(__(nil), t[{1, 2, 3}]) -- remember: tables are treated as references
 end
 
+function test_unpacking_a_table()
+  local t = { 1, 2, 3 }
+  local a,b,c = unpack(t)
+  assert_equal(__(1), a)
+  assert_equal(__(2), b)
+  assert_equal(__(3), c)
+end
+
 
 

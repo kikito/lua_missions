@@ -6,10 +6,11 @@ local mission_names = {
   'numbers',
   'strings',
   'patterns',
+  'control',
+  'truthiness',
   'functions',
   'tables',
-  'control',
-  'truthiness'
+  'tables_and_functions'
 }
 
 local missions = {}
