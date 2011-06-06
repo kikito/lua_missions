@@ -22,7 +22,7 @@ function test_assert_with_message()
 end
 
 function test_assert_expression()
-  local expected_value = __(3)
+  local expected_value = __(2)
   local actual_value = 1 + 1
   assert_true(expected_value == actual_value)
 end
