@@ -9,7 +9,7 @@
 
 -- INSERT YOUR CODE HERE
 
--- start skip
+-- begin skip
 function string:starts_with(prefix)
   return self:sub(1, #prefix) == prefix
 end

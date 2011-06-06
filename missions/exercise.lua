@@ -9,14 +9,6 @@
 
 -- INSERT YOUR CODE HERE
 
--- start skip
-function string:starts_with(prefix)
-  return self:sub(1, #prefix) == prefix
-end
-function string:ends_with(suffix)
-  return self:sub(-#suffix, -1) == suffix
-end
--- end skip
 
 -- END OF CODE INSERT
 
