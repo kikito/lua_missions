@@ -10,7 +10,8 @@ local mission_names = {
   'strings',
   'patterns',
   'functions',
-  'tables'
+  'tables',
+  'control'
 }
 
 local callbacks = {
