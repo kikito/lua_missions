@@ -8,6 +8,7 @@ local mission_names = {
   'variables',
   'numbers',
   'strings',
+  'patterns',
   'functions',
   'tables'
 }

@@ -21,6 +21,7 @@ function test_assign_function_to_variable()
 end
 
 function test_assign_anonymous_function_to_variable()
+  -- this is actually equivalent to the previous two tests
   local f = function(x,y)
     return x + y
   end
