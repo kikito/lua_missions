@@ -9,6 +9,7 @@ local mission_names = {
   'control',
   'truthiness',
   'functions',
+  'errors',
   'tables',
   'tables_and_functions',
   'meta',
