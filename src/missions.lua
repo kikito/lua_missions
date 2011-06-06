@@ -4,7 +4,6 @@ local folder_separator = package.config:sub(1,1)
 
 local mission_names = {
   'asserts',
-  'nil',
   'variables',
   'numbers',
   'strings',

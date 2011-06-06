@@ -1,11 +1,3 @@
-function test_all_numbers_have_the_same_type()
-  assert_equal(__, type(10))
-  assert_equal(__, type(0))
-  assert_equal(__, type(3.1415927))
-  assert_equal(__, type(-10))
-  assert_equal(__, type(1.2345e6))
-end
-
 function test_number_conversion()
   local str = "123"
   assert_equal(__, tonumber(str) + 25)

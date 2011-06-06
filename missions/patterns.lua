@@ -1,16 +1,5 @@
 -- patterns are Lua's version of regular expressions
 
-function test_string_sub()
-  local str = 'all your base'
-  local start_pos, end_pos = 5, 8
-  assert_equal(__, string.sub(str, start_pos, end_pos))
-end
-
-function test_string_sub_without_second_param_means_until_the_end()
-  local str = 'all your base'
-  assert_equal(__, string.sub(str, 5))
-end
-
 function test_string_find_returns_nil_if_pattern_not_matched()
   local str = 'banana'
   local pattern = 'lalala'

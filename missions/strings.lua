@@ -43,6 +43,17 @@ such as this one.
 ]]
 end
 
+function test_double_quoted_str_interpret_escape_characters()
+  local str = "\n"
+  assert_equal(__, #str)
+end
+
+function test_single_quoted_str_interpret_escape_characters()
+  local str = '\n'
+  assert_equal(__, #str)
+end
+
+
 function test_dot_dot_will_concatenate_two_strings()
   local str = "Hello, " .. "World"
   assert_equal(__, str)
@@ -56,14 +67,20 @@ function test_concatenation_will_leave_the_original_strings_unmodified()
   assert_equal(__, there)
 end
 
-function test_double_quoted_str_interpret_escape_characters()
-  local str = "\n"
-  assert_equal(__, #str)
+function test_numbers_must_be_converted_to_strings_before_concatenation()
+  local age = os.date("%Y") - 1993
+  assert_equal(__ .. " years old"), "Lua is " .. tostring(age) .. " years old")
 end
 
-function test_single_quoted_str_interpret_escape_characters()
-  local str = '\n'
-  assert_equal(__, #str)
+function test_booleans_must_be_converted_to_strings_before_concatenation()
+  local to_be = true
+  local hamlet = tostring(to_be) .. " or " .. tostring(not to_be) .. ", that is the boolean"
+  assert_equal(__, hamlet)
+end
+
+function test_nil_must_be_converted_to_string_before_concatenation()
+  local nothing_is_impossible_to_mankind = tostring(nil) .. " mortalibus ardui est"
+  assert_equal(__, nothing_is_impossible_to_mankind)
 end
 
 function test_there_is_a_table_called_string()
@@ -148,6 +165,17 @@ end
 
 function test_length_operator_does_not_require_extra_parenthesis_around_literals()
   assert_equal(__, #"Hello")
+end
+
+function test_string_sub()
+  local str = 'all your base'
+  local start_pos, end_pos = 5, 8
+  assert_equal(__, string.sub(str, start_pos, end_pos))
+end
+
+function test_string_sub_without_second_param_means_until_the_end()
+  local str = 'all your base'
+  assert_equal(__, string.sub(str, 5))
 end
 
 

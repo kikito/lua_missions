@@ -18,6 +18,11 @@ end
 
 -- conclussion: don't use global variables unless it's really necesary
 
+function test_nil_is_the_default_value_of_uninitialized_variables()
+  local foo
+  assert_equal(__, foo == nil)
+end
+
 function test_local_variables_inside_do_end_are_invisible_outside()
   do
     local foo = 'foo'
@@ -36,3 +41,46 @@ function test_switching_variables()
   a,b = b,a
   assert_equal(__, b)
 end
+
+function test_nil_type()
+  assert_equal(__, type(nil))
+end
+
+function test_number_type()
+  assert_equal(__, type(10))
+  assert_equal(__, type(0))
+  assert_equal(__, type(3.1415927))
+  assert_equal(__, type(-10))
+  assert_equal(__, type(1.2345e6))
+  -- we'll see more about numbers in numbers.lua
+end
+
+function test_string_type()
+  assert_equal(__, type("hello"))
+  assert_equal(__, type('hello'))
+  assert_equal(__, type([[hello]]))
+  -- learn more about strings in strings.lua
+end
+
+function test_boolean_type()
+  assert_equal(__, type(true))
+  assert_equal(__, type(false))
+end
+
+function test_table_type()
+  assert_equal(__, type({})) -- 
+  -- there's lots to be learnt about tables in tables.lua
+end
+
+function test_function_type()
+  assert_equal(__, type(assert_equal)) -- assert_equal *is* a function
+  assert_equal(__, type(type)) -- and so is type
+end
+
+function test_thread_type()
+  assert_equal(__, type(coroutine.create(function() end)))
+  -- we'll probably not learn about coroutines in our missions.
+end
+
+-- There is another type, called 'userdata', reserved for objects that interact with C
+-- These are the objects that make embedding possible
