@@ -58,6 +58,7 @@ function require_is_like_do_file_but_it_uses_package_path_so_it_doesnt_need_dot_
   local person = require("test_file")
   assert_equal(__('kikito'), person.id)
   assert_equal(__('hello there!'), person.speak())
+  --.note that you can modify package.path so that the files are correctly loaded
 end
 
 function require_loads_the_file_only_once_caching_the_results()

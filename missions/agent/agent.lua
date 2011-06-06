@@ -54,7 +54,8 @@ local mission_environment = {
     __add = function() return 0 end,
     __tostring = function() return '<FILL IN VALUE>' end,
     __call = function(_, ...) return ... end
-  })
+  }),
+  _LULZ = _G
 }
 setmetatable(mission_environment, { __index = _G })
 

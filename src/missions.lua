@@ -14,7 +14,8 @@ local mission_names = {
   'tables',
   'tables_and_functions',
   'meta',
-  'indices'
+  'indices',
+  'environments'
 }
 
 local missions = {}
