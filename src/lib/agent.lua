@@ -26,11 +26,22 @@ local function smart_quote(str)
   return string.format("%q", str )
 end
 
+local words_to_remove_from_traceback = { 'agent.lua', '[C]:', 'missions.lua' }
+
+local function line_should_be_kept_in_traceback(line)
+  for _,word in ipairs(words_to_remove_from_traceback) do
+    if line:find(word, 1, true) then return false end
+  end
+  return true
+end
+
 local function clean_traceback()
   local str = debug.traceback()
   local buffer = {}
   for line in str:gmatch("[^\r\n]+") do
-    if not line:find('agent.lua') and not line:find('[C]:', 1, true) then
+    if line == "stack traceback:" then
+      table.insert(buffer, "The error happened here:")
+    elseif line_should_be_kept_in_traceback(line) then
       table.insert(buffer, line)
     end
   end
