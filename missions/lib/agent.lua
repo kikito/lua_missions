@@ -18,6 +18,14 @@ local function merge_tables(destination, source)
   return destination
 end
 
+local function smart_quote(str)
+  if type(str) ~= 'string' then return tostring(str) end
+  if string.match( string.gsub(str,"[^'\"]",""), '^"+$' ) then
+    return "'" .. str .. "'"
+  end
+  return string.format("%q", str )
+end
+
 local function clean_traceback()
   local str = debug.traceback()
   local buffer = {}
@@ -29,7 +37,7 @@ local function clean_traceback()
   return table.concat(buffer, '\n')
 end
 
-local prefix = 'Assertion failed: Expected '
+local prefix = 'Assertion failed: Expected'
 
 local function raise_assert_error(msg)
   error({ agent, msg, clean_traceback() })
@@ -42,17 +50,17 @@ end
 local mission_environment = {
   assert_true = function(condition, msg)
     if not condition then
-      raise_assert_error( msg or ("%s '%s' to be true"):format(prefix, tostring(condition)) )
+      raise_assert_error( msg or ("%s [%s] to be true"):format(prefix, smart_quote(condition)) )
     end
   end,
   assert_not = function(condition, msg)
     if condition then
-      raise_assert_error( msg or ("%s '%s' to be false"):format(prefix, tostring(condition)) )
+      raise_assert_error( msg or ("%s [%s] to be false"):format(prefix, smart_quote(condition)) )
     end
   end,
   assert_equal = function(a, b, msg)
     if not (a == b) then
-      raise_assert_error( msg or ("%s '%s' to be equal to '%s'"):format(prefix, tostring(a), tostring(b)) )
+      raise_assert_error( msg or ("%s [%s] to be equal to [%s]"):format(prefix, smart_quote(a), smart_quote(b)) )
     end
   end,
   assert_error = function(f, msg)
