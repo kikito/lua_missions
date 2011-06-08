@@ -61,12 +61,12 @@ end
 local mission_environment = {
   assert_true = function(condition, msg)
     if not condition then
-      raise_assert_error( msg or ("%s [%s] to be true"):format(prefix, smart_quote(condition)) )
+      raise_assert_error( msg or ("%s [%s] to be [true]"):format(prefix, smart_quote(condition)) )
     end
   end,
   assert_not = function(condition, msg)
     if condition then
-      raise_assert_error( msg or ("%s [%s] to be false"):format(prefix, smart_quote(condition)) )
+      raise_assert_error( msg or ("%s [%s] to be [false]"):format(prefix, smart_quote(condition)) )
     end
   end,
   assert_equal = function(a, b, msg)

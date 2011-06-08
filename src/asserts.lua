@@ -4,7 +4,7 @@ function test_assert()
   assert_true(true)
   if false then
   -- end skip
-  assert_true(false) -- this should be true
+  assert_true(false) -- this should be true. This is how you write comments in Lua
   -- begin skip
   end
   -- end skip

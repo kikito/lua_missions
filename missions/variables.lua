@@ -3,20 +3,20 @@ function test_variables_are_defined_locally_with_local()
   assert_equal(__, x)
 end
 
-function local_variables_are_not_available_in_other_tests()
+function local_variables_are_not_available_outside_the_scope_where_they_were_defined()
   assert_equal(__, x)
 end
 
-function test_variables_are_defined_globally_by_default()
+function test_global_variables_are_defined_without_local()
   y = 'a global value'
   assert_equal(__, y)
 end
 
-function test_global_variables_are_available_in_other_tests()
+function test_global_variables_are_available_outside_the_scope_where_they_were_defined()
   assert_equal(__, y)
 end
 
--- conclussion: don't use global variables unless it's really necesary
+-- Not: don't use global variables unless it's really necesary. Try not to forget using local
 
 function test_nil_is_the_default_value_of_uninitialized_variables()
   local foo

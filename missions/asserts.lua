@@ -1,6 +1,6 @@
 
 function test_assert()
-  assert_true(false) -- this should be true
+  assert_true(false) -- this should be true. This is how you write comments in Lua
 end
 
 function test_assert_with_message()

@@ -10,33 +10,39 @@ function test_single_quoted_strings_are_also_strings()
   assert_equal(__, type(str))
 end
 
+function test_double_bracketed_strings_are_also_strings()
+  local str = [[Thank you, World]]
+  assert_equal(__, type(str))
+end
+
 function test_use_single_quotes_to_create_str_with_double_quotes()
   local str = 'He said, "Go Away."'
-  assert_equal(__, str)
+  assert_equal(__, str) -- just copy the literal over there
 end
 
 function test_use_double_quotes_to_create_strings_with_single_quotes()
   local str = "Don't"
-  assert_equal(__, str)
+  assert_equal(__, str) -- same, just copy the string
 end
 
-function test_use_backslash_for_those_hard_cases()
+function test_you_can_use_backslash_for_those_hard_cases()
   local a = "He said, \"Don't\""
   local b = 'He said, "Don\'t"'
   assert_equal(__, a == b)
 end
 
-function test_double_brackets_to_handle_really_hard_cases()
-  local a = [[double-brackets can handle both ' and " characters]]
+function test_double_brackets_can_handle_quotes_and_apostrophes_without_escaping_them()
+  local a = [[I can handle both ' and " characters]]
   assert_equal(__, a)
+  -- So it's just easier to use them if you have to mix both quotes and apostrophes somehow.
 end
 
-function test_double_brackets_can_handle_multiple_lines()
+function test_double_brackets_can_take_several_lines()
   local long_str = [[
 It was the best of times,
 It was the worst of times.
 ]]
-  assert_equal(__, #long_str)
+  assert_equal(__, type(long_str))
 --[[ bonus note:
 You can use multi-line strings to create multi-line comments,
 such as this one.
@@ -68,8 +74,9 @@ function test_concatenation_will_leave_the_original_strings_unmodified()
 end
 
 function test_numbers_must_be_converted_to_strings_before_concatenation()
-  local age = os.date("%Y") - 1993
-  assert_equal(__ .. " years old"), "Lua is " .. tostring(age) .. " years old")
+  local age = os.date("%Y") - 1993 -- note: os.date provides the current date in different formats
+  local str = "Lua is " .. tostring(age) .. " years old"
+  assert_equal(__, str)
 end
 
 function test_booleans_must_be_converted_to_strings_before_concatenation()
@@ -121,7 +128,7 @@ function test_string_char_builds_strings_from_ascii_codes()
   assert_equal(__, string.char(65,66,67))
 end
 
-function test_string_char_returns_empty_string_from_nil()
+function test_string_char_returns_empty_string_when_called_with_no_params()
   assert_equal(__, string.char())
 end
 
@@ -171,15 +178,24 @@ end
 
 function test_length_operator_does_not_require_extra_parenthesis_around_literals()
   assert_equal(__, #"Hello")
+  -- so the length operator is in general more reliable
 end
 
-function test_string_sub()
+function test_string_sub_returns_a_substring_given_the_start_and_end_positions()
   local str = 'all your base'
   local start_pos, end_pos = 5, 8
   assert_equal(__, string.sub(str, start_pos, end_pos))
 end
 
-function test_string_sub_without_second_param_means_until_the_end()
+function test_string_sub_can_also_be_used_in_a_shorter_way()
+  local str = 'all your base'
+  local start_pos, end_pos = 5, 8
+  assert_equal(__, str:sub(start_pos, end_pos))
+  -- this is actually possible with all the functions inside string.
+  -- The only problem is that you have to put parenthesis around literals, as shown above
+end
+
+function test_string_sub_with_just_one_position_returns_from_that_position_until_the_end()
   local str = 'all your base'
   assert_equal(__, string.sub(str, 5))
 end
