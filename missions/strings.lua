@@ -1,5 +1,4 @@
 
-
 function test_double_quoted_strings_are_strings()
   local str = "Hello, World"
   assert_equal(__, type(str))
@@ -12,6 +11,11 @@ end
 
 function test_double_bracketed_strings_are_also_strings()
   local str = [[Thank you, World]]
+  assert_equal(__, type(str))
+end
+
+function test_long_bracket_strings_are_also_strings()
+  local str = [=====[You're Welcome, Puny Human!]=====]
   assert_equal(__, type(str))
 end
 
