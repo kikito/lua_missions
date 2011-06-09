@@ -7,9 +7,9 @@ functions and libraries, through failing tests.
 == The Structure
 
 The lessons are broken out into areas by file, strings are covered in strings.lua,
-nil is covered in nil.rb, etc. They are presented in order in the missions.rb file.
+nil is covered in nil.lua, etc. They are presented in order in the missions.lua file.
 
-Each mission builds up your knowledge of Ruby and builds upon itself.  It will stop at
+Each mission builds up your knowledge of Lua and builds upon itself.  It will stop at
 the first place you need to correct.
 
 Some missions simply need to have the correct answer substituted for an incorrect one.
@@ -19,7 +19,7 @@ make it work correctly.
 
 == Installing Lua
 
-If you do not have Ruby setup, please visit http://www.lua.org/download.html for
+If you do not have Lua setup, please visit http://www.lua.org/download.html for
 operating specific instructions. To check the installations simply type:
 
 *nix platforms from any terminal window:
@@ -44,7 +44,8 @@ In order to run de tests, you must execute the missions.lua file.
 
 Windows is the same thing
 
-    c:\lua_missions\missions\lua missions.lua                             # runs the default target :walk_the_path
+    c:\> cd lua_missions\missions
+    c:\lua_missions\missions\> lua missions.lua
 
 === Red, Green, Refactor
 
@@ -66,17 +67,18 @@ The very first time you run it you will see the following output:
 
     asserts...........................................[Incomplete]
     test_assert: [fail]
-    Assertion failed: Expected [false] to be [true]
-    The error happened here:
+    Assertion failed: Expected  'false' to be true
+    stack traceback:
       asserts.lua:3: in function <asserts.lua:2>
-
+      missions.lua:28: in main chunk
 
 
 It is telling you where to look for the first solution:
 
-    Assertion failed: Expected [false] to be [true]
-    The error happened here:
+    Assertion failed: Expected  'false' to be true
+    stack traceback:
       asserts.lua:3: in function <asserts.lua:2>
+      missions.lua:28: in main chunk
 
 We then open up the asserts.lua file and look at the first test:
 
