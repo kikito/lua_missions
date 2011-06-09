@@ -16,7 +16,7 @@ function test_global_variables_are_available_outside_the_scope_where_they_were_d
   assert_equal(__, y)
 end
 
--- Not: don't use global variables unless it's really necesary. Try not to forget using local
+-- Note: don't use global variables unless it's really necesary. Try not to forget using local
 
 function test_nil_is_the_default_value_of_uninitialized_variables()
   local foo
