@@ -67,18 +67,17 @@ The very first time you run it you will see the following output:
 
     asserts...........................................[Incomplete]
     test_assert: [fail]
-    Assertion failed: Expected  'false' to be true
-    stack traceback:
+    Assertion failed: Expected [false] to be [true]
+    The error happened here:
       asserts.lua:3: in function <asserts.lua:2>
-      missions.lua:28: in main chunk
+
 
 
 It is telling you where to look for the first solution:
 
-    Assertion failed: Expected  'false' to be true
-    stack traceback:
+    Assertion failed: Expected [false] to be [true]
+    The error happened here:
       asserts.lua:3: in function <asserts.lua:2>
-      missions.lua:28: in main chunk
 
 We then open up the asserts.lua file and look at the first test:
 
