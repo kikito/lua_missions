@@ -15,6 +15,11 @@ function test_double_bracketed_strings_are_also_strings()
   assert_equal(__, type(str))
 end
 
+function test_string_length_operator()
+  local str = "Hello"
+  assert_equal(__, #str)
+end
+
 function test_use_single_quotes_to_create_str_with_double_quotes()
   local str = 'He said, "Go Away."'
   assert_equal(__, str) -- just copy the literal over there
@@ -56,6 +61,10 @@ end
 
 function test_single_quoted_str_interpret_escape_characters()
   local str = '\n'
+  assert_equal(__, #str)
+end
+function test_double_bracketed_quoted_str_dont_interpret_escape_characters()
+  local str = [[\n]]
   assert_equal(__, #str)
 end
 
@@ -102,7 +111,7 @@ end
 
 function test_string_upper()
   local str = "eat me"
-  assert_equal(__, string.upper('EAT ME'))
+  assert_equal(__, string.upper('eat me'))
 end
 
 function test_string_byte_returns_the_first_ascii_char()
@@ -156,14 +165,9 @@ function test_string_format_replaces_percent_d_with_an_integer()
   -- %x & %X format numbers in hexadecimal (lowercase and uppercase characters respectively)
 end
 
-function test_string_len()
+function test_string_len() -- another way of getting a string's length
   local str = "Hello"
   assert_equal(__, string.len(str))
-end
-
-function test_string_length_operator()
-  local str = "Hello"
-  assert_equal(__, #str)
 end
 
 function test_you_actually_dont_need_to_use_the_string_table()
