@@ -15,6 +15,11 @@ function test_double_bracketed_strings_are_also_strings()
   assert_equal(__, type(str))
 end
 
+function test_long_bracket_strings_are_also_strings()
+  local str = [=====[You're Welcome, Puny Human!]=====]
+  assert_equal(__, type(str))
+end
+
 function test_use_single_quotes_to_create_str_with_double_quotes()
   local str = 'He said, "Go Away."'
   assert_equal(__, str) -- just copy the literal over there
