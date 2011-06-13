@@ -31,9 +31,9 @@ end
 function test_if_not_statement()
   local result = 'default value'
   if not false then
-    result = 'false value'
+    result = 'true value'
   end
-  assert_equal(__('false value'), result)
+  assert_equal(__('true value'), result)
 end
 
 function test_and_or_expression()

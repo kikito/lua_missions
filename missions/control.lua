@@ -31,7 +31,7 @@ end
 function test_if_not_statement()
   local result = 'default value'
   if not false then
-    result = 'false value'
+    result = 'true value'
   end
   assert_equal(__, result)
 end
