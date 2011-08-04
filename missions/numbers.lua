@@ -17,6 +17,7 @@ end
 
 function test_cohercion_does_not_work_on_other_operators()
   assert_equal(__, "100" == 100)
+  -- '~=' is the 'not equal' sign
   assert_equal(__, "100" ~= 100)
 end
 
@@ -54,7 +55,6 @@ end
 
 function test_nan_is_the_only_number_not_equal_to_itself()
   local nan = 0/0
-  -- '~=' is the 'not equal' sign
   assert_equal(__, nan ~= nan)
 
   -- another way of obtaining nan is math.sqrt(-1)
