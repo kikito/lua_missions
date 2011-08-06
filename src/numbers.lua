@@ -15,6 +15,16 @@ function test_cohercion_works_on_aritmetic_operators_with_numbers()
   -- ... but your code will be cleaner if you are just explicit about your conversions
 end
 
+function test_equals_sign_returns_true_for_equal_values()
+  assert_equal(__(true), 1 == 1)
+  assert_equal(__(false), 1 == 2)
+end
+
+function test_not_equals_sign_returns_true_for_not_equal_values()
+  assert_equal(__(true),  1 ~= 2)
+  assert_equal(__(false), 1 ~= 1)
+end
+
 function test_cohercion_does_not_work_on_other_operators()
   assert_equal(__(false), "100" == 100)
   assert_equal(__(true), "100" ~= 100)
