@@ -54,6 +54,19 @@ such as this one.
 ]]
 end
 
+function test_double_brackets_can_be_nested_but_they_need_the_equals_sign()
+  local a = [=[one [[two]] three]=]
+  local b = "one [[two]] three"
+  assert_equal(__, a == b)
+  -- note: if you remove the equal signs from a you will get a syntax error
+end
+
+function test_it_doesnt_matter_how_many_equal_signs_you_use_as_long_as_they_are_the_same_at_the_start_and_end()
+  local a = [===[one [[two]] three]===]
+  local b = "one [[two]] three"
+  assert_equal(__, a == b)
+end
+
 function test_double_quoted_str_interpret_escape_characters()
   local str = "\n"
   assert_equal(__, #str)
