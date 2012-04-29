@@ -38,7 +38,7 @@ end
 
 function test_red_pill()
   -- solving the problem above
-  local function f() return type(10) end
+  local function f() return type(x) end
   local env = getfenv(f)
   local new_env = setmetatable({x=10}, {__index = env})
   setfenv(f, new_env)
