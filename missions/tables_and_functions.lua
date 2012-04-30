@@ -52,7 +52,7 @@ function test_anonymous_functions_can_be_used_as_literal_table_elements_when_usi
 end
 
 function test_syntactic_sugar_for_declaring_functions_indexed_by_strings()
-  -- declaring a function inside a table with a string is so comon that Lua
+  -- declaring a function inside a table with a string is so common that Lua
   -- provides some syntactic sugar just for that:
   local t = {}
   function t.bar() return "bar" end
