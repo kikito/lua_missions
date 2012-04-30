@@ -117,7 +117,7 @@ end
 
 function test_parenthesis_are_not_needed_on_invocation_when_the_only_parameter_is_a_string()
   local function count_spaces(str)
-    count = 0
+    local count = 0
     str:gsub(" ", function() count = count + 1 end) -- notice the closure here!
     return count
   end
