@@ -35,7 +35,7 @@ around 5.1 or more).
 
 == The Missions
 
-In order to run de tests, you must execute the missions.lua file.
+In order to run the tests, you must execute the missions.lua file.
 
 *nix platforms, from the lua_missions/missions directory:
 
