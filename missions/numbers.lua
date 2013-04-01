@@ -3,7 +3,7 @@ function test_number_conversion()
   assert_equal(__, tonumber(str) + 25)
 end
 
-function test_cohercion_works_on_aritmetic_operators_with_numbers()
+function test_coercion_works_on_aritmetic_operators_with_numbers()
   assert_equal(__, 1000 + "24")
   assert_equal(__, "1024" * 2)
   assert_equal(__, "64" / 2)
@@ -25,7 +25,7 @@ function test_not_equals_sign_returns_true_for_not_equal_values()
   assert_equal(__, 1 ~= 1)
 end
 
-function test_cohercion_does_not_work_on_other_operators()
+function test_coercion_does_not_work_on_other_operators()
   assert_equal(__, "100" == 100)
   assert_equal(__, "100" ~= 100)
 end
