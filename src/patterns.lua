@@ -14,7 +14,7 @@ function test_string_find_a_pattern()
   assert_equal(__(3), end_pos)
 end
 
-function test_string_find_a_pattern_with_starging_position()
+function test_string_find_a_pattern_with_starting_position()
   local str = 'banana'
   local pattern = 'an'
   local start_pos, end_pos = string.find(str, pattern, 4)
