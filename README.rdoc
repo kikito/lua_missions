@@ -30,8 +30,8 @@ Windows from the command prompt (cmd.exe)
 
    c:\lua -v
 
-Any response for Lua with a version number greater than 5.0 is fine (should be
-around 5.1 or more).
+The output should include the version of Lua that is in your path. Versions
+5.0.x and 5.1.x should be fine. Version 5.2.x is not currently supported.
 
 == The Missions
 
@@ -112,7 +112,7 @@ Lua-users wiki                 ::  http://lua-users.org/
 
 Author         :: Enrique García <kikito - at - gmail - dot - com> 
 Source & Issues:: http://www.github.com/kikito/lua_missions
-Requires       :: Lua 5.1 or later (optional: Rake for building up the files from source)
+Requires       :: Lua 5.1 (optional: Rake for building up the files from source)
 
 = License
 
