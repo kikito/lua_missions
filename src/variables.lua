@@ -16,7 +16,7 @@ function test_global_variables_are_available_outside_the_scope_where_they_were_d
   assert_equal(__('a global value'), y)
 end
 
--- Note: don't use global variables unless it's really necesary. Try not to forget using local
+-- Note: don't use global variables unless it's really necessary. Try not to forget using local
 
 function test_nil_is_the_default_value_of_uninitialized_variables()
   local foo
@@ -69,7 +69,7 @@ end
 
 function test_table_type()
   assert_equal(__('table'), type({})) -- 
-  -- there's lots to be learnt about tables in tables.lua
+  -- there's lots to be learned about tables in tables.lua
 end
 
 function test_function_type()
