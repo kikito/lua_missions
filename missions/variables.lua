@@ -69,7 +69,7 @@ end
 
 function test_table_type()
   assert_equal(__, type({})) -- 
-  -- there's lots to be learnt about tables in tables.lua
+  -- there's lots to be learned about tables in tables.lua
 end
 
 function test_function_type()
