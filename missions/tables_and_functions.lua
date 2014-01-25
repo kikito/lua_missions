@@ -1,4 +1,3 @@
-
 function test_brackets_convert_dot_dot_dot_to_table()
   local third = function(...)
     local args = {...}

@@ -1,4 +1,3 @@
-
 function test_getfenv_returns_a_function_env_and_that_is_a_table()
   local function f() end
   local env = getfenv(f)
