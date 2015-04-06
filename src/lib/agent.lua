@@ -116,7 +116,16 @@ local function add_test_to_mission(mission, name, f)
 end
 
 local function load_mission(mission, options)
-  local f, message = loadfile(mission.path)
+  setmetatable(mission, {__index = mission_environment, __newindex = add_test_to_mission})
+
+  local f, message
+
+  if setfenv then
+    f, message = loadfile(mission.path, 'bt')
+  else
+    f, message = loadfile(mission.path, 'bt', mission)
+  end
+
   if not f then
     mission.status = 'file error'
     mission.message = message
@@ -124,8 +133,8 @@ local function load_mission(mission, options)
     return mission
   end
 
-  setfenv(f, mission)
-  setmetatable(mission, {__index = mission_environment, __newindex = add_test_to_mission})
+  if setfenv then setfenv(f, mission) end
+
   local succeed, message = pcall(f)
   if not succeed then
     mission.status = 'syntax error'
