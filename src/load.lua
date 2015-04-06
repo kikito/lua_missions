@@ -17,9 +17,9 @@ end
 
 function loadstring_returns_nil_plus_an_error_message_if_there_is_a_syntax_error()
   local value = 10
-  local status, message = loadstring("x x")
+  local status, message = loadstring("if true print('hello') end")
   assert_equal(__(nil), status)
-  assert_equal(__([[[string "x x"]:1: '=' expected near 'x']]), message)
+  assert_equal(__([[[string "if true print('hello') end"]:1: 'then' expected near 'print']]), message)
 end
 
 function loadstring_never_raises_errors_when_called_but_its_generated_function_can_raise_them()
@@ -65,7 +65,7 @@ function require_loads_the_file_only_once_caching_the_results()
   local person1 = dofile("test_file.lua")
   local person2 = require("test_file")
   local person3 = require("test_file")
-  
+
   assert_equal(__(false), person1 == person2)
   assert_equal(__(true),  person2 == person3)
 end
