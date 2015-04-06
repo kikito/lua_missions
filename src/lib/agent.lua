@@ -20,10 +20,15 @@ end
 
 local function smart_quote(str)
   if type(str) ~= 'string' then return tostring(str) end
-  if string.match( string.gsub(str,"[^'\"]",""), '^"+$' ) then
+  local has_double, has_single = str:match('"'), str:match("'")
+
+  if     has_double and has_single then
+    return "[[" .. str .. "]]"
+  elseif has_double and not has_single then
     return "'" .. str .. "'"
   end
-  return string.format("%q", str )
+
+  return '"' .. str .. '"'
 end
 
 local words_to_remove_from_traceback = { 'agent.lua', '[C]:', 'missions.lua' }
@@ -61,17 +66,17 @@ end
 local mission_environment = {
   assert_true = function(condition, msg)
     if not condition then
-      raise_assert_error( msg or ("%s [%s] to be [true]"):format(prefix, smart_quote(condition)) )
+      raise_assert_error( msg or ("%s %s to be true"):format(prefix, smart_quote(condition)) )
     end
   end,
   assert_not = function(condition, msg)
     if condition then
-      raise_assert_error( msg or ("%s [%s] to be [false]"):format(prefix, smart_quote(condition)) )
+      raise_assert_error( msg or ("%s %s to be false"):format(prefix, smart_quote(condition)) )
     end
   end,
   assert_equal = function(a, b, msg)
     if not (a == b) then
-      raise_assert_error( msg or ("%s [%s] to be equal to [%s]"):format(prefix, smart_quote(a), smart_quote(b)) )
+      raise_assert_error( msg or ("%s %s to be equal to %s"):format(prefix, smart_quote(a), smart_quote(b)) )
     end
   end,
   assert_error = function(f, msg)
