@@ -34,6 +34,7 @@ function test_ends_with()
   assert_true(str:ends_with("e"))
   assert_true(str:ends_with("some"))
   assert_true(str:ends_with("awesome"))
+  assert_not(str:ends_with("awe"))
 end
 
 -- hint: string == getmetatable("").__index
