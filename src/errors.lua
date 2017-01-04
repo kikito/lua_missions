@@ -37,13 +37,13 @@ end
 function test_pcall_works_ok_on_anonymous_functions()
   local status, message = pcall(function() error('hi!') end)
   assert_equal(__(false), status)
-  assert_equal(__(message), message)
+  assert_equal(__('errors.lua:38: hi!'), message)
 end
 
 function test_pcall_works_ok_on_error_itself()
   local status, message = pcall(error, 'Hello')
   assert_equal(__(false), status)
-  assert_equal(__(message), message)
+  assert_equal(__('Hello'), message)
 end
 
 function test_error_removes_file_info_if_second_param_is_0()
@@ -60,6 +60,6 @@ end
 function test_assert_is_defined_by_lua()
   local status, message = pcall(function() assert(false, "This is an error") end)
   assert_equal(__(false), status)
-  assert_equal(__(message), message)
+  assert_equal(__('errors.lua:61: This is an error'), message)
   -- exercise left out to the reader: figure out how assert might be implemented
 end

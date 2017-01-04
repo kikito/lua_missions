@@ -149,7 +149,7 @@ end
 
 function test_unpacking_a_table()
   local t = { 1, 2, 3 }
-  local a,b,c = unpack(t)
+  local a,b,c = table.unpack(t)
   assert_equal(__, a)
   assert_equal(__, b)
   assert_equal(__, c)
