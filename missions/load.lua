@@ -54,11 +54,11 @@ function package_path_is_a_string_containing_question_mark_dot_lua()
   assert_equal(__, package.path:find('?.lua') ~= nil)
 end
 
-function require_is_like_do_file_but_it_uses_package_path_so_it_doesnt_need_dot_lua_at_the_end_of_path()
+function require_is_like_do_file_but_it_uses_package_path_so_it_does_not_need_dot_lua_at_the_end_of_path()
   local person = require("test_file")
   assert_equal(__, person.id)
   assert_equal(__, person.speak())
-  --.note that you can modify package.path so that the files are correctly loaded
+  -- note that you can modify package.path so that the files are correctly loaded
 end
 
 function require_loads_the_file_only_once_caching_the_results()

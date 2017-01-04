@@ -12,7 +12,7 @@ function test_setmetatable_returns_the_table_being_modified()
   assert_equal(__(true), mt == getmetatable(t))
 end
 
-function test__tostring_metamethod_allows_defining_the_way_tables_are_transformed_into_text()
+function test_tostring_metamethod_allows_defining_the_way_tables_are_transformed_into_text()
   local mt = {
     __tostring = function(x)
       return "table with " .. tostring(#x) .. " items"
@@ -22,7 +22,7 @@ function test__tostring_metamethod_allows_defining_the_way_tables_are_transforme
   assert_equal(__('table with 4 items'), tostring(t))
 end
 
-function test__add_metamethod_is_invoked_when_the_plus_symbol_is_used()
+function test_add_metamethod_is_invoked_when_the_plus_symbol_is_used()
   local mt = {
     __add = function(a,b)
       return a.value + b.value
@@ -38,7 +38,7 @@ function test__add_metamethod_is_invoked_when_the_plus_symbol_is_used()
   -- other metamethods like __sub, __mul, __div, __mod and __pow are very similar to __add
 end
 
-function test__unm_metamethod_is_invoked_when_the_unary_minus_symbol_is_used()
+function test_unm_metamethod_is_invoked_when_the_unary_minus_symbol_is_used()
   local mt = {
     __unm = function(x)
       local result = {}
@@ -56,7 +56,7 @@ function test__unm_metamethod_is_invoked_when_the_unary_minus_symbol_is_used()
   assert_equal(__('5, 4, 3, 2, 1'), table.concat(result, ', '))
 end
 
-function test__concat__metamethod_is_invoked_when_dot_dot_operator_is_used()
+function test_concat_metamethod_is_invoked_when_dot_dot_operator_is_used()
   local mt = {
     __concat = function(a,b)
       local result = {}
@@ -75,7 +75,7 @@ function test__concat__metamethod_is_invoked_when_dot_dot_operator_is_used()
   assert_equal(__('1, 2, 3, 4, 5, 6'), table.concat(result, ', '))
 end
 
-function test__eq_operator_is_invoked_when_the_equal_or_not_equal_operators_are_used()
+function test_eq_operator_is_invoked_when_the_equal_or_not_equal_operators_are_used()
 
   local t1 = {1,2,3}
   local t2 = {1,2,3}
@@ -106,7 +106,7 @@ function test__eq_operator_is_invoked_when_the_equal_or_not_equal_operators_are_
 
 end
 
-function test__lt_metamethod_is_invoked_when_the_less_or_greater_than_operators_are_used()
+function test_lt_metamethod_is_invoked_when_the_less_or_greater_than_operators_are_used()
 
   local mt = {
     __lt = function(a,b)
@@ -129,7 +129,7 @@ function test__lt_metamethod_is_invoked_when_the_less_or_greater_than_operators_
   -- there's also a __le that works similarly to lt, but for the <= operator
 end
 
-function test__call_operator_is_invoked_when_a_table_is_used_like_a_function()
+function test_call_operator_is_invoked_when_a_table_is_used_like_a_function()
   local doubler = setmetatable({}, {
     __call = function(t, x)
       return x * 2

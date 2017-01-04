@@ -8,14 +8,14 @@ function test_gc_does_not_remove_values_from_regular_tables_with_references()
   assert_equal(__, type(t.foo))
 end
 
-function test_gc_removes_values_from_tables_with__mode_set_to_v_if_there_are_no_other_references_to_them()
+function test_gc_removes_values_from_tables_with_mode_set_to_v_if_there_are_no_other_references_to_them()
   local t = setmetatable({}, { __mode = 'v' })
   t.foo = {}
   collectgarbage()
   assert_equal(__, type(t.foo))
 end
 
-function test_gc_does_not_remove_values_from_tables_with__mode_set_to_v_if_there_are_other_references()
+function test_gc_does_not_remove_values_from_tables_with_mode_set_to_v_if_there_are_other_references()
   local t = setmetatable({}, { __mode = 'v' })
   local x = {}
   t.foo = x
@@ -39,7 +39,7 @@ local function has_anything(t)
   return false
 end
 
-function test_gc_does_not_remove_the_key_when__mode_is_k_and_there_are_other_references_to_it()
+function test_gc_does_not_remove_the_key_when_mode_is_k_and_there_are_other_references_to_it()
   local t = setmetatable({}, { __mode = 'k' })
   local x = {}
   t[x] = true
@@ -47,7 +47,7 @@ function test_gc_does_not_remove_the_key_when__mode_is_k_and_there_are_other_ref
   assert_equal(__, has_anything(t))
 end
 
-function test_gc_removes_the_key_when__mode_is_k_and_no_other_references_remain()
+function test_gc_removes_the_key_when_mode_is_k_and_no_other_references_remain()
   local t = setmetatable({}, { __mode = 'k' })
   do
     local x = {}

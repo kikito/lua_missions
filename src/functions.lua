@@ -28,7 +28,7 @@ function test_assign_anonymous_function_to_variable()
   assert_equal(__(10), f(5,5))
 end
 
-function test_functions_that_dont_return_anything_return_nil()
+function test_functions_that_do_not_return_anything_return_nil()
   local f = function() end
   assert_equal(__(nil), f())
 end
