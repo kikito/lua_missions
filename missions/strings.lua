@@ -1,5 +1,3 @@
-
-
 function test_double_quoted_strings_are_strings()
   local str = "Hello, World"
   assert_equal(__, type(str))
@@ -216,10 +214,3 @@ function test_string_sub_with_just_one_position_returns_from_that_position_until
   local str = 'all your base'
   assert_equal(__, string.sub(str, 5))
 end
-
-
-
-
-
-
-

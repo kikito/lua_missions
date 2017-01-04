@@ -70,10 +70,4 @@ function require_loads_the_file_only_once_caching_the_results()
   assert_equal(__(true),  person2 == person3)
 end
 
--- for all this, require is the Prefered Lua Way for requiring files
-
-
-
-
-
-
+-- for all this, require is the preferred Lua way for requiring files

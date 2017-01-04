@@ -7,7 +7,8 @@ functions and libraries, through failing tests.
 == The Structure
 
 The lessons are broken out into areas by file, strings are covered in strings.lua,
-nil is covered in nil.lua, etc. They are presented in order in the missions.lua file.
+functions are covered in functions.lua, etc. They are presented in order in the
+missions.lua file.
 
 Each mission builds up your knowledge of Lua and builds upon itself.  It will stop at
 the first place you need to correct.

@@ -1,4 +1,3 @@
-
 -- note: the garbage collector can be explicitly invoked with collectgarbage
 
 function test_gc_does_not_remove_values_from_regular_tables_with_references()
@@ -67,10 +66,3 @@ function test_really_weak_tables_have_their_mode_set_to_both_k_and_v()
   collectgarbage()
   assert_equal(__, has_anything(t))
 end
-
-
-
-
-
-
-

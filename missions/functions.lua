@@ -142,5 +142,3 @@ function test_variable_number_of_arguments_with_dot_dot_dot()
   end
   assert_equal(__, third('a','b','c','d'))
 end
-
-

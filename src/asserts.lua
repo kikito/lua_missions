@@ -1,4 +1,3 @@
-
 function test_assert()
   -- begin skip
   assert_true(true)
