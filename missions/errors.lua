@@ -51,7 +51,7 @@ function test_error_removes_file_info_if_second_param_is_0()
   assert_equal(__, message)
 end
 
-function test_error_returning_non_strings_converts_to_string_but_supresses_file_info()
+function test_error_returning_non_strings_converts_to_string_but_suppresses_file_info()
   local _, message = pcall(error, 404)
   assert_equal(__, message)
   -- not only numbers and strings are possible. You can returns tables, functions, etc too.
