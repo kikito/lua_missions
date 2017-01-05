@@ -107,6 +107,7 @@ function test_eq_operator_is_invoked_when_the_equal_or_not_equal_operators_are_u
   -- assert_equal(__, t1 ~= t2)
   
   -- both operands have metatable set:
+  -- (identical behaviour for Lua 5.x)  
   setmetatable(t2, mt)
   assert_equal(__, t1 == t2)
   assert_equal(__, t1 ~= t2)
