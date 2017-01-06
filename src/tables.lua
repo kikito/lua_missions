@@ -1,3 +1,10 @@
+-- In Lua 5.1/LuaJIT, there is one global function called unpack.
+-- In Lua >= 5.2 it was deprecated in favor of the function table.unpack.
+-- The following line creates a new local variable called `unpack` pointing
+-- to the right function depending on the Lua version you are in.
+-- Just remember that unpack is not available in Lua >= 5.3 any more.
+local unpack = _G.unpack or table.unpack
+
 function test_creating_empty_tables()
   local empty_table = {}
   assert_equal( __('table'), type(empty_table))

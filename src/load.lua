@@ -1,3 +1,10 @@
+-- In Lua 5.1/LuaJIT, there is one global function called loadstring.
+-- In Lua >= 5.2 it was renamed to load.
+-- The following line creates a new local variable called `loadstring` pointing
+-- to the right function depending on the Lua version you are in. Just remember
+-- that the default one is called `load` in Lua >= 5.2
+local loadstring = _G.loadstring or _G.load
+
 function loadstring_executes_lua_code_inside_a_string_by_creating_a_function()
   local f = loadstring("return 1 + 1")
   assert_equal(__(2), f())

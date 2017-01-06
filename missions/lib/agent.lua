@@ -241,6 +241,12 @@ function agent.print_missions(missions)
   end
 end
 
+function lua_greater_or_equal_5_3()
+  if table.move then
+    return true
+  else
+    return false
+  end
+end
+
 return agent
-
-
