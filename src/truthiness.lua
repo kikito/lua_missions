@@ -1,4 +1,3 @@
-
 -- not a test, but a helper local function
 local function is_truthy(condition)
   if condition then return true end
@@ -33,4 +32,3 @@ end
 -- or
 --    if obj then
 -- Why?
-

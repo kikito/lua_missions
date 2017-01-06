@@ -62,7 +62,7 @@ function test_character_classes()
   -- other character classes:
   -- %c matches any control character
   -- %x matches any hexadecimal character
-  -- %w alphanumeric
+  -- %w alphanumeric character
 end
 
 function test_character_sets()

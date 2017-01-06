@@ -31,11 +31,3 @@ function test_ends_with()
 end
 
 -- hint: string == getmetatable("").__index
-
-
-
-
-
-
-
-

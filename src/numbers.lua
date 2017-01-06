@@ -3,13 +3,13 @@ function test_number_conversion()
   assert_equal(__(148), tonumber(str) + 25)
 end
 
-function test_coercion_works_on_aritmetic_operators_with_numbers()
+function test_coercion_works_on_arithmetic_operators_with_numbers()
   assert_equal(__(1024), 1000 + "24")
   assert_equal(__(2048), "1024" * 2)
   assert_equal(__(32), "64" / 2)
   assert_equal(__(256), "2" ^ 8)
 
-  -- So these are another 2 ways of converting to number:
+  -- These are 2 other ways of converting to number:
   assert_equal(__(20), "20" * 1)
   assert_equal(__(20), "20" + 0)
   -- ... but your code will be cleaner if you are just explicit about your conversions
@@ -47,12 +47,13 @@ function test_some_math_functions()
 
 -- List of all math functions:
 
--- math.abs     math.acos    math.asin       math.atan    math.atan2
--- math.ceil    math.cos     math.cosh       math.deg     math.exp
--- math.floor   math.fmod    math.frexp      math.ldexp   math.log
--- math.log10   math.max     math.min        math.modf    math.pow
--- math.rad     math.random  math.randomseed math.sin     math.sinh
--- math.sqrt    math.tan     math.tanh
+-- math.abs      math.acos      math.asin       math.atan    math.atan2
+-- math.ceil     math.cos       math.cosh       math.deg     math.exp
+-- math.floor    math.fmod      math.frexp      math.ldexp   math.log
+-- math.log10    math.max       math.min        math.modf    math.pow
+-- math.rad      math.random    math.randomseed math.sin     math.sinh
+-- math.sqrt     math.tan       math.tanh
+-- Lua 5.3 only: math.tointeger math.type       math.ult
 
 -- Interestingly enough, there's no math.round
 end

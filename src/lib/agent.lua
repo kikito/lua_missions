@@ -242,5 +242,3 @@ function agent.print_missions(missions)
 end
 
 return agent
-
-

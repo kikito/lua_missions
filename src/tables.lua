@@ -154,6 +154,3 @@ function test_unpacking_a_table()
   assert_equal(__(2), b)
   assert_equal(__(3), c)
 end
-
-
-
