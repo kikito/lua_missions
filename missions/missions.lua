@@ -13,6 +13,7 @@ local mission_names = {
   'load',
   'tables',
   'tables_and_functions',
+  'coroutines',
   'meta',
   'indices',
   'exercise',
