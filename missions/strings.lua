@@ -1,5 +1,3 @@
-
-
 function test_double_quoted_strings_are_strings()
   local str = "Hello, World"
   assert_equal(__, type(str))
@@ -54,14 +52,14 @@ such as this one.
 ]]
 end
 
-function test_double_brackets_can_be_nested_but_they_need_the_equals_sign()
+function test_double_brackets_can_be_nested_but_they_need_the_equal_signs()
   local a = [=[one [[two]] three]=]
   local b = "one [[two]] three"
   assert_equal(__, a == b)
   -- note: if you remove the equal signs from a you will get a syntax error
 end
 
-function test_it_doesnt_matter_how_many_equal_signs_you_use_as_long_as_they_are_the_same_at_the_start_and_end()
+function test_it_does_not_matter_how_many_equal_signs_you_use_as_long_as_they_are_the_same_at_the_start_and_end()
   local a = [===[one [[two]] three]===]
   local b = "one [[two]] three"
   assert_equal(__, a == b)
@@ -76,7 +74,7 @@ function test_single_quoted_str_interpret_escape_characters()
   local str = '\n'
   assert_equal(__, #str)
 end
-function test_double_bracketed_quoted_str_dont_interpret_escape_characters()
+function test_double_bracketed_quoted_str_does_not_interpret_escape_characters()
   local str = [[\n]]
   assert_equal(__, #str)
 end
@@ -183,7 +181,7 @@ function test_string_len() -- another way of getting a string's length
   assert_equal(__, string.len(str))
 end
 
-function test_you_actually_dont_need_to_use_the_string_table()
+function test_you_actually_do_not_need_to_use_the_string_table()
   local str = "Hello"
   assert_equal(__, str:len()) -- notice the colon!
   -- this works with all string functions
@@ -216,10 +214,3 @@ function test_string_sub_with_just_one_position_returns_from_that_position_until
   local str = 'all your base'
   assert_equal(__, string.sub(str, 5))
 end
-
-
-
-
-
-
-

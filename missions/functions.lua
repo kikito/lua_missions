@@ -28,7 +28,7 @@ function test_assign_anonymous_function_to_variable()
   assert_equal(__, f(5,5))
 end
 
-function test_functions_that_dont_return_anything_return_nil()
+function test_functions_that_do_not_return_anything_return_nil()
   local f = function() end
   assert_equal(__, f())
 end
@@ -142,5 +142,3 @@ function test_variable_number_of_arguments_with_dot_dot_dot()
   end
   assert_equal(__, third('a','b','c','d'))
 end
-
-

@@ -27,7 +27,3 @@ end
 
 local results = agent.run_missions(missions)
 agent.print_missions(results)
-
-
-
-

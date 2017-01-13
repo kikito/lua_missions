@@ -26,6 +26,7 @@ function test_starts_with()
   assert_true(str:starts_with("L"))
   assert_true(str:starts_with("Lua"))
   assert_true(str:starts_with("Lua is"))
+  assert_not(str:starts_with("awe"))
 end
 
 function test_ends_with()
@@ -38,11 +39,3 @@ function test_ends_with()
 end
 
 -- hint: string == getmetatable("").__index
-
-
-
-
-
-
-
-
