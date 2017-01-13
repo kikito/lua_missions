@@ -11,7 +11,7 @@ function test_unpack_for_converting_a_table_into_params()
   local sum = function(a,b,c)
     return a+b+c
   end
-  assert_equal(__, sum(unpack(params)))
+  assert_equal(__, sum(table.unpack(params)))
 end
 
 function test_functions_can_be_inserted_into_tables_and_invoked()

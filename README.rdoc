@@ -32,7 +32,7 @@ Windows from the command prompt (cmd.exe)
    c:\lua -v
 
 The output should include the version of Lua that is in your path. These missions are tested
-in Lua 5.1.x, 5.2.x and LuaJIT. They are not tested in Lua 5.3 (but they might work there, too)
+in Lua 5.1.x, 5.2.x, Lua 5.3.x and LuaJIT.
 
 == The Missions
 
@@ -113,7 +113,7 @@ Lua-users wiki                 ::  http://lua-users.org/
 
 Author         :: Enrique García <kikito - at - gmail - dot - com>
 Source & Issues:: http://www.github.com/kikito/lua_missions
-Requires       :: Lua 5.1 (optional: Rake for building up the files from source)
+Requires       :: Lua >= 5.1 (optional: Rake for building up the files from source)
 
 = License
 
