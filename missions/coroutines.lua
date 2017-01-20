@@ -16,7 +16,7 @@ function test_table_coroutine_contains_six_or_seven_elements()
   end
 end
 -- Table elements:
--- create     resume    status   
+-- create     resume    status
 -- running    wrap      yield
 -- Lua 5.3:   isyieldable
 
@@ -108,49 +108,65 @@ function test_status_of_coroutine_that_resumed_another_coroutine_is_normal()
   assert_equal(__, statusthread1)
 end
 
-function test_coroutine_running_returns_coroutine_thread()
-  local maincorothread1, maincorothread2, retcorothread
-  local corothread = coroutine.create(
+function test_coroutine_running_returns_current_coroutine()
+  local val1, val2, val3
+  local cor = coroutine.create(
     function()
-      retcorothread = coroutine.running()
+      val3 = coroutine.running()
       coroutine.yield()
     end
   )
-  maincorothread1 = coroutine.running()
+  val1 = coroutine.running()
   coroutine.resume(corothread)
-  maincorothread2 = coroutine.running()
-  assert_equal(__, type(maincorothread1))  
-  assert_equal(__, type(retcorothread))
-  assert_equal(__, maincorothread1 == maincorothread2)
-  assert_equal(__,retcorothread == corothread)
-end
+  val2 = coroutine.running()
 
-function test_coroutine_running_returns_true_if_running_coroutine_is_main_one()
-  local _, ismaincoro = coroutine.running()
-  assert_equal(__, ismaincoro)
-end
-
-function test_coroutine_running_returns_false_if_running_coroutine_is_not_main_one()
-  local ismaincoro = true
-  local corothread = coroutine.create(
-    function()
-      _, ismaincoro = coroutine.running(corothread)
-    end
-  )
-  coroutine.resume(corothread)
-  assert_equal(__, ismaincoro)
-end
-
-function test_main_thread_is_not_yieldable()
-  if lua_greater_or_equal_5_3() then
-    -- only valid if you are on Lua >=5.3
-    assert_equal(__, coroutine.isyieldable())
+  -- The behavior of coroutine.running has changed
+  -- There is an "always-running main coroutine" in Lua >= 5.2
+  -- Plus, coroutine.running returns a second parameter (see below)
+  if lua_greater_or_equal_5_2() then
+    assert_equal(__, type(val1))
+    assert_equal(__, type(val2))
+    assert_equal(__,  val1 == val2)
+    assert_equal(__, val1 == val3)
+    assert_equal(__, val3 == cor)
+  else
+  -- In Lua 5.1 and LuaJIT, there is no "main coroutine", to coroutine.running can return nil
+    assert_equal(__, type(val1))
+    assert_equal(__, type(val2))
+    assert_equal(__, val1 == val2)
+    assert_equal(__, val3 == cor)
   end
 end
 
-function test_running_coroutine_is_yieldable()
-  if lua_greater_or_equal_5_3() then
-    -- only valid if you are on Lua >=5.3
+-- The following 2 tests only apply to Lua >= 5.2, because coroutine.running returns a second value there
+if lua_greater_or_equal_5_2() then
+
+  function test_coroutine_running_returns_true_if_running_coroutine_is_main_one()
+    local _, ismaincoro = coroutine.running()
+    assert_equal(__, ismaincoro)
+  end
+
+  function test_coroutine_running_returns_false_if_running_coroutine_is_not_main_one()
+    local ismaincoro = true
+    local corothread = coroutine.create(
+      function()
+        _, ismaincoro = coroutine.running(corothread)
+      end
+    )
+    coroutine.resume(corothread)
+    assert_equal(__, ismaincoro)
+  end
+
+end
+
+-- The following 2 tests only apply to 5.3, since coroutine.isyieldable doesn't exist in previous versions of Lua
+if lua_greater_or_equal_5_3() then
+
+  function test_main_thread_is_not_yieldable()
+    assert_equal(__, coroutine.isyieldable())
+  end
+
+  function test_running_coroutine_is_yieldable()
     local isyieldable = false
     local corothread = coroutine.create(
       function()
@@ -160,6 +176,7 @@ function test_running_coroutine_is_yieldable()
     coroutine.resume(corothread)
     assert_equal(__, isyieldable)
   end
+
 end
 
 function test_resume_with_no_yield_passes_arguments_to_coroutine_main_function()
@@ -169,7 +186,7 @@ function test_resume_with_no_yield_passes_arguments_to_coroutine_main_function()
       myvar = arg1
     end
   )
-  coroutine.resume(corothread, 42) 
+  coroutine.resume(corothread, 42)
   assert_equal(__, myvar)
 end
 
@@ -243,7 +260,7 @@ function test_errors_inside_coroutines_are_propagated_to_caller()
   -- here, the error is raised immediately
   local corothread = coroutine.create(
     function()
-      error("Error inside coroutine")  
+      error("Error inside coroutine")
     end
   )
   errorfree, message = coroutine.resume(corothread)
