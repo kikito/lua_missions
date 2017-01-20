@@ -1,5 +1,7 @@
 = Lua Missions
 
+{<img src="https://travis-ci.org/kikito/lua_missions.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/kikito/lua_missions]
+
 The Lua Missions help you learn Lua.
 The goal is to learn the Lua language, syntax, structure, and some common
 functions and libraries, through failing tests.
