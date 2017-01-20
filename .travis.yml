@@ -14,7 +14,7 @@ before_install:
   - export PATH=$PATH:$PWD/lua_install/bin # Add directory with all installed binaries to PATH
 
 script:
-  - cd missions
+  - cd src
   - lua missions.lua
 
 notifications:
