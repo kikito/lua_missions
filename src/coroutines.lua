@@ -1,3 +1,8 @@
+-- The following two lines define two functions which will be used on this exercise.
+-- For now you can just ignore them
+local function lua_greater_or_equal_5_3() return table.move end
+local function lua_greater_or_equal_5_2() return _G.rawlen end
+
 function test_coroutine_is_of_type_table()
   assert_equal(__("table"), type(coroutine))
 end
@@ -117,7 +122,7 @@ function test_coroutine_running_returns_current_coroutine()
     end
   )
   val1 = coroutine.running()
-  coroutine.resume(corothread)
+  coroutine.resume(cor)
   val2 = coroutine.running()
 
   -- The behavior of coroutine.running has changed

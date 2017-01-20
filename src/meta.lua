@@ -1,3 +1,7 @@
+-- The following line defines a function which will be used on this exercise.
+-- For now you can just ignore it
+local function lua_greater_or_equal_5_3() return table.move end
+
 function test_metatables_are_just_regular_tables()
   local t = { 1, 2, 3 }
   local mt = {}
@@ -96,24 +100,24 @@ function test_eq_operator_is_invoked_when_the_equal_or_not_equal_operators_are_u
   }
 
   setmetatable(t1, mt)
-  
+
   -- The behavior of __eq changed in Lua 5.3
 -- If you are using Lua >= 5.3, you should fix the first part of this conditional. The other part will never fail
 -- If you are using Lua <= 5.2, you should fix the second part - the first part will never fail.
   if lua_greater_or_equal_5_3() then
     -- Lua 5.3: __eq is invoked if either
-    -- of the two operands has metatable set: 
+    -- of the two operands has metatable set:
     assert_equal(__(true), t1 == t2)
     assert_equal(__(false), t1 ~= t2)
   else
     -- Lua <=5.2: __eq is only invoked if
-    -- both operands have metatable set: 
+    -- both operands have metatable set:
     assert_equal(__(false), t1 == t2)
     assert_equal(__(true), t1 ~= t2)
   end
 
   -- both operands have metatable set:
-  -- (identical behaviour for Lua 5.x)  
+  -- (identical behaviour for Lua 5.x)
   setmetatable(t2, mt)
   assert_equal(__(true), t1 == t2)
   assert_equal(__(false), t1 ~= t2)
