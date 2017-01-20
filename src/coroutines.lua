@@ -136,8 +136,8 @@ function test_coroutine_running_returns_current_coroutine()
     assert_equal(__(true), val3 == cor)
   else
   -- In Lua 5.1 and LuaJIT, there is no "main coroutine", to coroutine.running can return nil
-    assert_equal(__(nil), type(val1))
-    assert_equal(__(nil), type(val2))
+    assert_equal(__("nil"), type(val1))
+    assert_equal(__("nil"), type(val2))
     assert_equal(__(true), val1 == val2)
     assert_equal(__(true), val3 == cor)
   end
