@@ -1,5 +1,7 @@
 local ansicolors = require 'lib.ansicolors'
 
+-- aux functions
+
 local function cwrite(str)
   io.write(ansicolors(str))
 end
@@ -16,6 +18,10 @@ local function merge_tables(destination, source)
     destination[k] = destination[k] == nil and v or destination[k] -- don't merge false, only nil
   end
   return destination
+end
+
+local function copy_table(source)
+  return merge_tables({}, source)
 end
 
 local function smart_quote(str)
@@ -53,8 +59,6 @@ local function clean_traceback()
   return table.concat(buffer, '\n')
 end
 
-local prefix = 'Assertion failed: Expected'
-
 local function raise_assert_error(msg)
   error({ agent, msg, clean_traceback() })
 end
@@ -63,6 +67,49 @@ local function invoke_callback(callback, ...)
   if type(callback)=='function' then callback(...) end
 end
 
+local function pad(str, len, filler)
+  return str .. string.rep(filler, len - #str)
+end
+
+local function bracket(str)
+  return "%{bright white}[%{reset}" .. str .. "%{bright white}]"
+end
+
+local function nice_status(status)
+  if status == 'complete' then return bracket("%{green}Complete") end
+  if status == 'incomplete' then return bracket("%{yellow}Incomplete") end
+  if status == 'fail' or status:find('error') then return bracket("%{red}"..status) end
+end
+
+-- test-level stuff
+local function test_run(test, options)
+  local status, message = pcall(test.f)
+  if status then
+    test.status = "pass"
+    invoke_callback(options.test_passed, test)
+  elseif type(message) == "table" and message[1] == agent then
+    test.status = "fail"
+    test.message = message[2]
+    test.trace = message[3]
+    invoke_callback(options.test_failed, test)
+  else
+    test.status = "error"
+    test.message = message
+    test.trace = clean_traceback()
+    invoke_callback(options.test_error, test)
+  end
+end
+
+local function test_print_report(test)
+  if test.status and test.status ~= 'pass' then
+    cprint('%{blue}' .. test.name .. ': ' .. nice_status(test.status))
+    cprint(test.message)
+    cprint(test.trace)
+  end
+end
+
+-- mission-level functions
+local prefix = 'Assertion failed: Expected'
 local mission_environment = {
   assert_true = function(condition, msg)
     if not condition then
@@ -94,25 +141,7 @@ local mission_environment = {
 }
 setmetatable(mission_environment, { __index = _G })
 
-local function run_test(test, options)
-  local status, message = pcall(test.f)
-  if status then
-    test.status = "pass"
-    invoke_callback(options.test_passed, test)
-  elseif type(message) == "table" and message[1] == agent then
-    test.status = "fail"
-    test.message = message[2]
-    test.trace = message[3]
-    invoke_callback(options.test_failed, test)
-  else
-    test.status = "error"
-    test.message = message
-    test.trace = clean_traceback()
-    invoke_callback(options.test_error, test)
-  end
-end
-
-local function add_test_to_mission(mission, name, f)
+local function mission_add_test(mission, name, f)
   if type(f) == 'function' then
     table.insert(mission, {name = name, f = f})
   else
@@ -120,8 +149,19 @@ local function add_test_to_mission(mission, name, f)
   end
 end
 
-local function load_mission(mission, options)
-  setmetatable(mission, {__index = mission_environment, __newindex = add_test_to_mission})
+local function mission_print_report(mission)
+  cprint(pad(mission.name, 50, '.') .. nice_status(mission.status))
+  if mission.status == 'incomplete' then
+    for _,test in ipairs(mission) do
+      test_print_report(test)
+    end
+  elseif mission.status == 'file error' or mission.status == 'syntax error' then
+    cprint(mission.message)
+  end
+end
+
+local function mission_load(mission, options)
+  setmetatable(mission, {__index = mission_environment, __newindex = mission_add_test})
 
   local f, message
 
@@ -152,11 +192,11 @@ local function load_mission(mission, options)
   return mission
 end
 
-local function run_mission(mission, options)
+local function mission_run(mission, options)
   if mission.status == "loaded" then
     mission.status = "complete"
     for _,test in ipairs(mission) do
-      run_test(test, options)
+      test_run(test, options)
       if test.status ~= 'pass' then
         mission.status = "incomplete"
         if options.stop_on_first_error then return end
@@ -165,47 +205,60 @@ local function run_mission(mission, options)
   end
 end
 
-local function pad(str, len, filler)
-  return str .. string.rep(filler, len - #str)
-end
+-- Public Agent methods
+local Agent = {}
+local AgentMt = {__index = Agent}
 
-local function bracket(str)
-  return "%{bright white}[%{reset}" .. str .. "%{bright white}]"
-end
-
-local function nice_status(status)
-  if status == 'complete' then return bracket("%{green}Complete") end
-  if status == 'incomplete' then return bracket("%{yellow}Incomplete") end
-  if status == 'fail' or status:find('error') then return bracket("%{red}"..status) end
-end
-
-local function print_test(test)
-  if test.status and test.status ~= 'pass' then
-    cprint('%{blue}' .. test.name .. ': ' .. nice_status(test.status))
-    cprint(test.message)
-    cprint(test.trace)
-  end
-end
-
-local function print_mission(mission)
-  cprint(pad(mission.name, 50, '.') .. nice_status(mission.status))
-  if mission.status == 'incomplete' then
-    for _,test in ipairs(mission) do
-      print_test(test)
+function Agent:load()
+  self.status = 'loading'
+  for _,mission in ipairs(self.missions) do
+    mission_load(mission, self.options)
+    if mission.status ~= 'loaded' then
+      self.status = 'fail'
+      if self.options.stop_on_first_error then return end
     end
-  elseif mission.status == 'file error' or mission.status == 'syntax error' then
-    cprint(mission.message)
+  end
+  if self.status ~= 'fail' then self.status = 'loaded' end
+end
+
+function Agent:run()
+  self.status = 'running'
+  for _,mission in ipairs(self.missions) do
+    mission_run(mission, self.options)
+    if mission.status ~= 'complete' then
+      self.status = 'fail'
+      if self.options.stop_on_first_error then return end
+    end
+  end
+  if self.status ~= 'fail' then self.status = 'complete' end
+end
+
+function Agent:print_report()
+  cprint('\n\n%{bright magenta}***%{cyan} Mission status %{magenta}***%{reset}\n')
+  for _, mission in ipairs(self.missions) do
+    mission_print_report(mission)
+  end
+  if self.status == 'complete' then
+    cprint("\n\n%{bright yellow}Congratulations! You have finished all the missions!\n")
   end
 end
 
-function all_missions_complete(missions)
-  for _,mission in ipairs(missions) do
-    if mission.status ~= 'complete' then return false end
-  end
-  return true
+function Agent:get_exit_status()
+  return self.status == 'complete' and 0 or 1
 end
 
-local default_options = {
+function Agent:execute()
+  self:load()
+  self:run()
+  self:print_report()
+  return self:get_exit_status()
+end
+
+---
+
+local agent = {}
+
+local DEFAULT_OPTIONS = {
   test_passed  = function(test) cwrite("%{green}.") end,
   test_failed  = function(test) cwrite("%{red}F") end,
   test_error   = function(test) cwrite("%{red}E") end,
@@ -214,31 +267,12 @@ local default_options = {
   stop_on_first_error = true
 }
 
--- Public interface
-
-local agent = {}
-
-function agent.run_missions(mission_specs, options)
-  local result = {}
-  local missions = merge_tables({}, mission_specs) -- makes a copy of mission_specs
-  options = merge_tables(options or {}, default_options) -- merge_tables default values for options
-  for _,mission in ipairs(missions) do
-    load_mission(mission, options)
-    run_mission(mission, options)
-    table.insert(result, mission)
-    if options.stop_on_first_error and mission.status ~= 'complete' then return result end
-  end
-  return result
-end
-
-function agent.print_missions(missions)
-  cprint('\n\n%{bright magenta}***%{cyan} Mission status %{magenta}***%{reset}\n')
-  for _, mission in ipairs(missions) do
-    print_mission(mission)
-  end
-  if all_missions_complete(missions) then
-    cprint("\n\n%{bright yellow}Congratulations! You have finished all the missions!\n")
-  end
+function agent.new(missions, options)
+  return setmetatable({
+    status   = 'new',
+    missions = copy_table(missions),
+    options  = merge_tables(options or {}, DEFAULT_OPTIONS)
+  }, AgentMt)
 end
 
 function lua_greater_or_equal_5_3()

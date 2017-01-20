@@ -27,11 +27,12 @@ for _, name in ipairs(mission_names) do
 end
 
 -- begin skip
-local results = agent.run_missions(missions, {stop_on_first_error = false})
+local a = agent.new(missions, {stop_on_first_error = false})
 if false then
 -- end skip
-local results = agent.run_missions(missions)
+local a = agent.new(missions)
 -- begin skip
 end
 -- end skip
-agent.print_missions(results)
+
+os.exit(a:execute())

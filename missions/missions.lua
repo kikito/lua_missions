@@ -26,5 +26,6 @@ for _, name in ipairs(mission_names) do
   table.insert(missions, { name = name, path = name .. '.lua' })
 end
 
-local results = agent.run_missions(missions)
-agent.print_missions(results)
+local a = agent.new(missions)
+
+os.exit(a:execute())
