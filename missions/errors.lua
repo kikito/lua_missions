@@ -51,10 +51,13 @@ function test_error_removes_file_info_if_second_param_is_0()
   assert_equal(__, message)
 end
 
+
 function test_error_returning_non_strings_converts_to_string_but_suppresses_file_info()
-  local _, message = pcall(error, 404)
-  assert_equal(__, message)
-  -- not only numbers and strings are possible. You can returns tables, functions, etc too.
+  local tbl = {text = "an error inside a table"}
+  local _, message = pcall(error, tbl)
+  assert_equal(__, type(message))
+  assert_equal(__, message.text)
+  -- You can return ANY Lua value as an error: strings, numbers, but also tables, functions, etc.
 end
 
 function test_assert_is_defined_by_lua()
