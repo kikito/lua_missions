@@ -51,15 +51,18 @@ function test_error_removes_file_info_if_second_param_is_0()
   assert_equal(__('World'), message)
 end
 
+
 function test_error_returning_non_strings_converts_to_string_but_suppresses_file_info()
-  local _, message = pcall(error, 404)
-  assert_equal(__('404'), message)
-  -- not only numbers and strings are possible. You can returns tables, functions, etc too.
+  local tbl = {text = "an error inside a table"}
+  local _, message = pcall(error, tbl)
+  assert_equal(__("table"), type(message))
+  assert_equal(__("an error inside a table"), message.text)
+  -- You can return ANY Lua value as an error: strings, numbers, but also tables, functions, etc.
 end
 
 function test_assert_is_defined_by_lua()
   local status, message = pcall(function() assert(false, "This is an error") end)
   assert_equal(__(false), status)
-  assert_equal(__('errors.lua:61: This is an error'), message)
+  assert_equal(__('errors.lua:64: This is an error'), message)
   -- exercise left out to the reader: figure out how assert might be implemented
 end
