@@ -21,10 +21,6 @@ script:
   - luacheck --std max *.lua
   - lua missions.lua
 
-branches:
-  except:
-    - gh-pages
-
 notifications:
   email:
     on_success: change
