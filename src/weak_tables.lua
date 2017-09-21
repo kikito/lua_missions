@@ -61,6 +61,7 @@ function test_really_weak_tables_have_their_mode_set_to_both_k_and_v()
   do
     local x = {}
     t[x] = x
+    t.foo = x
   end
   assert_equal(__(true), has_anything(t))
   collectgarbage()
