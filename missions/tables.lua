@@ -134,7 +134,7 @@ function test_creating_an_inline_mixed_table()
   assert_equal(__, t.foo)
 end
 
-function test_non_numberic_keys_are_ignored_by_table_length()
+function test_non_numeric_keys_are_ignored_by_table_length()
   local t = { 1,2, hi = 'hello' }
   assert_equal(__, #t)
 end
