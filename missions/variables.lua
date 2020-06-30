@@ -79,7 +79,7 @@ end
 
 function test_thread_type()
   assert_equal(__, type(coroutine.create(function() end)))
-  -- we'll probably not learn about coroutines in our missions.
+  -- you will learn about coroutines in our missions, too.
 end
 
 -- There is another type, called 'userdata', reserved for objects that interact with C
