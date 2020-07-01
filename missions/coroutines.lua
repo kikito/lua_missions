@@ -1,5 +1,6 @@
--- The following two lines define two functions which will be used on this exercise.
+-- The following three lines define three functions which will be used on this exercise.
 -- For now you can just ignore them
+local function lua_greater_or_equal_5_4() return coroutine.close end
 local function lua_greater_or_equal_5_3() return table.move end
 local function lua_greater_or_equal_5_2() return _G.rawlen end
 
@@ -12,8 +13,11 @@ function test_table_coroutine_contains_six_or_seven_elements()
   for key in pairs(coroutine) do
     counter = counter + 1
   end
-  if lua_greater_or_equal_5_3() then
-    -- if you are on Lua >=5.3
+  if lua_greater_or_equal_5_4() then
+    -- if you are on Lua >=5.4
+    assert_equal(__, counter)
+  else if lua_greater_or_equal_5_3() then
+    -- if you are on Lua 5.3
     assert_equal(__, counter)
   else
     -- if you are on Lua <=5.2
@@ -24,6 +28,7 @@ end
 -- create     resume    status
 -- running    wrap      yield
 -- Lua 5.3:   isyieldable
+-- Lua 5.4:   close
 
 function test_all_elements_of_table_coroutine_are_of_type_function()
   for key, value in pairs(coroutine) do
