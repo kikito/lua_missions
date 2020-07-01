@@ -1,5 +1,5 @@
--- The following line defines a function which will be used on this exercise.
--- For now you can just ignore it
+-- The following two lines define two functions which will be used on this exercise.
+-- For now you can just ignore them
 local function lua_greater_or_equal_5_3() return table.move end
 local function is_luajit() return jit end
 
