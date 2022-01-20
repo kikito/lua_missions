@@ -34,7 +34,7 @@ Windows from the command prompt (cmd.exe)
    c:\lua -v
 
 The output should include the version of Lua that is in your path. These missions are tested
-in Lua 5.1.x, 5.2.x, Lua 5.3.x and LuaJIT.
+in Lua 5.1.x, 5.2.x, Lua 5.3.x, Lua 5.4.x and LuaJIT.
 
 == The Missions
 
