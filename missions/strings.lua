@@ -122,7 +122,7 @@ end
 
 function test_string_upper()
   local str = "eat me"
-  assert_equal(__, string.upper('eat me'))
+  assert_equal(__, string.upper(str))
 end
 
 function test_string_byte_returns_the_first_ascii_char()
